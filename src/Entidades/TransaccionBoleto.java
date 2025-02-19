@@ -5,6 +5,7 @@ package Entidades;
  *
  * @author Ariel Eduardo Borbon Izaguirre 252116
  * Alberto Jimenez Garcia 252595
+ * v2
  */
 public class TransaccionBoleto {
     private int transaccionId;
