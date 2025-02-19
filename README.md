@@ -1,2 +1,8 @@
-# TicketWizard_252116_252595
-Proyecto 1 de Bases de datos Avanzadas TicketWizard Ariel Borbon y Alberto Jimenez
+NOTA 
+
+EL BRANCH CON TODO EL PROYECTO ES "master"
+
+al momento de unir lines github nos notifico: 
+There isn’t anything to compare. main and master are entirely different commit histories.
+
+Entonces colocamos "master" como main 
