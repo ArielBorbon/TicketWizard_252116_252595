@@ -13,23 +13,21 @@ import java.sql.*;
 public class personaDAO {
  private final ConexionBD conexionBD = new ConexionBD();
 
-    public Persona autenticar(String usuario, String contrasena) throws SQLException {
+    public boolean autenticar(String usuario, String contrasena) throws SQLException {
         String sql = "SELECT * FROM Personas WHERE usuario = ? AND contrasena = ?";
         
-        try (Connection conn = conexionBD.crearConexion();
-             PreparedStatement sentencia = conn.prepareStatement(sql)) {
+        try (Connection conn = ConexionBD.crearConexion();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
-            sentencia.setString(1, usuario);
-            sentencia.setString(2, contrasena);
+            pstmt.setString(1, usuario);
+            pstmt.setString(2, contrasena);
             
-            try (ResultSet rs = sentencia.executeQuery()) {
-                if (rs.next()) {
-                    return mapearPersona(rs);
-                }
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.next(); // Retorna true si encuentra coincidencia
             }
         }
-        return null;
     }
+
 
     public void agregarFondos(int personaId, double monto) throws SQLException {
         String sql = "UPDATE Personas SET saldo = saldo + ? WHERE persona_id = ?";

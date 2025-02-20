@@ -96,6 +96,11 @@ public class Evento {
     public void setTotalBoletos(int totalBoletos) {
         this.totalBoletos = totalBoletos;
     }
+
+    @Override
+    public String toString() {
+        return "Evento{" + "eventoId=" + eventoId + ", nombre=" + nombre + ", fecha=" + fecha + ", recinto=" + recinto + ", ciudad=" + ciudad + ", estado=" + estado + ", descripcion=" + descripcion + ", totalBoletos=" + totalBoletos + '}';
+    }
     
     
     

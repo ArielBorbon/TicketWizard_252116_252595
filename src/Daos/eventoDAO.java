@@ -21,7 +21,7 @@ public class eventoDAO {
 private final ConexionBD conexionBD = new ConexionBD();
 
 
-    public List<Evento> obtenerEventosFuturos() throws SQLException {
+    public  List<Evento> obtenerEventosFuturos() throws SQLException {
         String sql = "SELECT * FROM Eventos WHERE fecha > NOW()";
         List<Evento> eventos = new ArrayList<>();
         
