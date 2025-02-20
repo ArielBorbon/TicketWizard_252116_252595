@@ -1,47 +1,34 @@
-
-package Entidades;
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Dtos;
 import java.time.LocalDate;
-
-
-
+import java.util.List;
 /**
  *
  * @author Ariel Eduardo Borbon Izaguirre 252116
  * Alberto Jimenez Garcia 252595
  */
-public class Transaccion {
-    private int transaccionId;
+
+public class TransaccionDTO {
     private String numTransaccion;
     private LocalDate fechaHora;
     private String tipo;
     private double montoTotal;
-    private double comision;
     private String estado;
-    private LocalDate fechaExpiracion;
-    private int personaId;
+    private List<Integer> boletosIds;
 
-    public Transaccion() {
+    public TransaccionDTO() {
     }
 
-    public Transaccion(int transaccionId, String numTransaccion, LocalDate fechaHora, String tipo, double montoTotal, double comision, String estado, LocalDate fechaExpiracion, int personaId) {
-        this.transaccionId = transaccionId;
+    public TransaccionDTO(String numTransaccion, LocalDate fechaHora, String tipo, double montoTotal, String estado, List<Integer> boletosIds) {
         this.numTransaccion = numTransaccion;
         this.fechaHora = fechaHora;
         this.tipo = tipo;
         this.montoTotal = montoTotal;
-        this.comision = comision;
         this.estado = estado;
-        this.fechaExpiracion = fechaExpiracion;
-        this.personaId = personaId;
-    }
-
-    public int getTransaccionId() {
-        return transaccionId;
-    }
-
-    public void setTransaccionId(int transaccionId) {
-        this.transaccionId = transaccionId;
+        this.boletosIds = boletosIds;
     }
 
     public String getNumTransaccion() {
@@ -76,14 +63,6 @@ public class Transaccion {
         this.montoTotal = montoTotal;
     }
 
-    public double getComision() {
-        return comision;
-    }
-
-    public void setComision(double comision) {
-        this.comision = comision;
-    }
-
     public String getEstado() {
         return estado;
     }
@@ -92,26 +71,15 @@ public class Transaccion {
         this.estado = estado;
     }
 
-    public LocalDate getFechaExpiracion() {
-        return fechaExpiracion;
+    public List<Integer> getBoletosIds() {
+        return boletosIds;
     }
 
-    public void setFechaExpiracion(LocalDate fechaExpiracion) {
-        this.fechaExpiracion = fechaExpiracion;
+    public void setBoletosIds(List<Integer> boletosIds) {
+        this.boletosIds = boletosIds;
     }
 
-    public int getPersonaId() {
-        return personaId;
-    }
+    
 
-    public void setPersonaId(int personaId) {
-        this.personaId = personaId;
-    }
-    
-    
-    
-    
-    
-    
-    
+
 }

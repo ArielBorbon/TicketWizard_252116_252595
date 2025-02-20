@@ -1,15 +1,16 @@
-
-package Entidades;
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Dtos;
 import java.time.LocalDate;
-
-
 /**
  *
  * @author Ariel Eduardo Borbon Izaguirre 252116
  * Alberto Jimenez Garcia 252595
  */
-public class Evento {
+
+public class eventoDTO {
     private int eventoId;
     private String nombre;
     private LocalDate fecha;
@@ -17,12 +18,12 @@ public class Evento {
     private String ciudad;
     private String estado;
     private String descripcion;
-    private int totalBoletos;
+    private int boletosDisponibles;
 
-    public Evento() {
+    public eventoDTO() {
     }
 
-    public Evento(int eventoId, String nombre, LocalDate fecha, String recinto, String ciudad, String estado, String descripcion, int totalBoletos) {
+    public eventoDTO(int eventoId, String nombre, LocalDate fecha, String recinto, String ciudad, String estado, String descripcion, int boletosDisponibles) {
         this.eventoId = eventoId;
         this.nombre = nombre;
         this.fecha = fecha;
@@ -30,7 +31,7 @@ public class Evento {
         this.ciudad = ciudad;
         this.estado = estado;
         this.descripcion = descripcion;
-        this.totalBoletos = totalBoletos;
+        this.boletosDisponibles = boletosDisponibles;
     }
 
     public int getEventoId() {
@@ -89,13 +90,14 @@ public class Evento {
         this.descripcion = descripcion;
     }
 
-    public int getTotalBoletos() {
-        return totalBoletos;
+    public int getBoletosDisponibles() {
+        return boletosDisponibles;
     }
 
-    public void setTotalBoletos(int totalBoletos) {
-        this.totalBoletos = totalBoletos;
+    public void setBoletosDisponibles(int boletosDisponibles) {
+        this.boletosDisponibles = boletosDisponibles;
     }
+
     
     
     

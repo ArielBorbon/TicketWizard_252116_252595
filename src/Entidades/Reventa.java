@@ -1,7 +1,9 @@
 
 package Entidades;
 
-import java.util.Date;
+import java.time.LocalDate;
+
+
 
 /**
  *
@@ -11,7 +13,7 @@ import java.util.Date;
 public class Reventa {
     private int reventaId;
     private double precioReventa;
-    private Date fechaLimite;
+    private LocalDate fechaLimite;
     private String estado;
     private int boletoId;
     private int personaIdVendedor;
@@ -19,7 +21,7 @@ public class Reventa {
     public Reventa() {
     }
 
-    public Reventa(int reventaId, double precioReventa, Date fechaLimite, String estado, int boletoId, int personaIdVendedor) {
+    public Reventa(int reventaId, double precioReventa, LocalDate fechaLimite, String estado, int boletoId, int personaIdVendedor) {
         this.reventaId = reventaId;
         this.precioReventa = precioReventa;
         this.fechaLimite = fechaLimite;
@@ -48,11 +50,11 @@ public class Reventa {
         this.precioReventa = precioReventa;
     }
 
-    public Date getFechaLimite() {
+    public LocalDate getFechaLimite() {
         return fechaLimite;
     }
 
-    public void setFechaLimite(Date fechaLimite) {
+    public void setFechaLimite(LocalDate fechaLimite) {
         this.fechaLimite = fechaLimite;
     }
 

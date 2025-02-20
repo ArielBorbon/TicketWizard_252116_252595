@@ -1,43 +1,44 @@
-
-package Entidades;
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Dtos;
 import java.time.LocalDate;
-
-
 
 /**
  *
  * @author Ariel Eduardo Borbon Izaguirre 252116
  * Alberto Jimenez Garcia 252595
  */
-public class Persona {
+
+
+public class personaDTO {
     private int personaId;
     private String correo;
     private String nombreCompleto;
     private String domicilio;
     private LocalDate fechaNacimiento;
     private int edad;
-    private int totalBoletos;
     private double saldo;
     private String usuario;
-    private String contrasena;
 
-    public Persona() {
+    public personaDTO() {
     }
 
-    public Persona(int personaId, String correo, String nombreCompleto, String domicilio, LocalDate fechaNacimiento, int edad, int totalBoletos, double saldo, String usuario, String contrasena) {
+    public personaDTO(int personaId, String correo, String nombreCompleto, String domicilio, LocalDate fechaNacimiento, int edad, double saldo, String usuario) {
         this.personaId = personaId;
         this.correo = correo;
         this.nombreCompleto = nombreCompleto;
         this.domicilio = domicilio;
         this.fechaNacimiento = fechaNacimiento;
         this.edad = edad;
-        this.totalBoletos = totalBoletos;
         this.saldo = saldo;
         this.usuario = usuario;
-        this.contrasena = contrasena;
     }
 
+    
+    
+    
     public int getPersonaId() {
         return personaId;
     }
@@ -86,14 +87,6 @@ public class Persona {
         this.edad = edad;
     }
 
-    public int getTotalBoletos() {
-        return totalBoletos;
-    }
-
-    public void setTotalBoletos(int totalBoletos) {
-        this.totalBoletos = totalBoletos;
-    }
-
     public double getSaldo() {
         return saldo;
     }
@@ -110,15 +103,6 @@ public class Persona {
         this.usuario = usuario;
     }
 
-    public String getContrasena() {
-        return contrasena;
-    }
 
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-    
-    
-    
-    
+
 }
