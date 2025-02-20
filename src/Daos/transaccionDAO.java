@@ -12,7 +12,7 @@ import java.util.List;
  * Alberto Jimenez Garcia 252595
  */
 public class transaccionDAO {
-    private ConexionBD conexionBD;
+private final ConexionBD conexionBD = new ConexionBD();
 
 
     public List<Transaccion> obtenerHistorial(int personaId) throws SQLException {

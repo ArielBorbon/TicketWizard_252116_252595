@@ -18,7 +18,7 @@ import java.sql.Timestamp;
  */
 
 public class eventoDAO {
-    private  ConexionBD conexionBD;
+private final ConexionBD conexionBD = new ConexionBD();
 
 
     public List<Evento> obtenerEventosFuturos() throws SQLException {

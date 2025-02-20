@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 public class TransaccionBoletoDAO {
-    private ConexionBD conexionBD;
+    private final ConexionBD conexionBD = new ConexionBD();
 
 
     public void vincularBoletoATransaccion(int transaccionId, int boletoId) throws SQLException {

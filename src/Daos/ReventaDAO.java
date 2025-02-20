@@ -17,7 +17,7 @@ import Utileria.ConexionBD;
  * Alberto Jimenez Garcia 252595
  */
 public class ReventaDAO {
-    private ConexionBD conexionBD ;
+private final ConexionBD conexionBD = new ConexionBD();
 
     
     public void publicarReventa(Reventa reventa) throws SQLException {

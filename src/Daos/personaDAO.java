@@ -11,7 +11,7 @@ import java.sql.*;
  */
 
 public class personaDAO {
-    private ConexionBD conexionBD;
+ private final ConexionBD conexionBD = new ConexionBD();
 
     public Persona autenticar(String usuario, String contrasena) throws SQLException {
         String sql = "SELECT * FROM Personas WHERE usuario = ? AND contrasena = ?";

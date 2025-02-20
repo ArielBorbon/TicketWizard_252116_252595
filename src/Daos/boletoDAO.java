@@ -12,7 +12,7 @@ import java.sql.*;
  * Alberto Jimenez Garcia 252595
  */
 public class boletoDAO {
-    private ConexionBD conexionBD;
+    private final ConexionBD conexionBD = new ConexionBD();
 
     
     public void insertarBoleto(Boleto boleto) throws SQLException {
