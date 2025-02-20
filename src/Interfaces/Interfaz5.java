@@ -93,7 +93,7 @@ public class Interfaz5 extends javax.swing.JFrame {
         jLabel2.setText("Boletos Disponibles");
         jLabel2.setFont(new Font("Inter", Font.BOLD, 16));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"A1B2C3D4","E5F6G7H8","I9J0K1L2","M3N4O5P6","Q7R8S9T0","U1V2W3X4","Y5Z6A7B8","C9D0E1F2","G3H4I5J6","K7L8M9N0"}));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);

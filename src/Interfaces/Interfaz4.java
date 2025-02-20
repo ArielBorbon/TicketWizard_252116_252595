@@ -50,7 +50,7 @@ public class Interfaz4 extends javax.swing.JFrame {
         jLabel3.setText("Selecciona El Evento al cual deseas Comprar Boletos:");
         jLabel2.setFont(new Font("Inter", Font.BOLD, 12));
 
-        eventosDisponibles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        eventosDisponibles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Coldplay - Music of Spheres", "Liga MX - Final", "Bad Bunny - World's Hottest Tour" }));
         eventosDisponibles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 eventosDisponiblesActionPerformed(evt);
