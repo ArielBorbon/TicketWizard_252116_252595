@@ -57,7 +57,7 @@ setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);                              
                 }
 
                 // Abrir EventoGUI con los filtros
-                new SeleccionarEventoFrame2(nombre, fechaString).setVisible(true);
+                new SeleccionarEventoFrame2(nombre, fechaString, personachida).setVisible(true);
                 dispose(); // Cerrar ventana actual
             }
         });

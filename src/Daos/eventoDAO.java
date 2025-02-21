@@ -95,43 +95,39 @@ public List<Evento> listarEventos() throws SQLException {
 
     
 
-    public List<Evento> listarEventosConFiltro(String nombreFiltro, String fechaFiltro) throws SQLException {
-    String sql = "SELECT * FROM Eventos WHERE 1=1"; // Empezamos con una cláusula que siempre es verdadera
+    public List<Evento> listarEventosConFiltro(String nombre, String fecha) throws SQLException {
+    List<Evento> eventos = new ArrayList<>();
+    StringBuilder sql = new StringBuilder("SELECT * FROM Eventos WHERE 1=1");
 
-    // Condicionales para agregar filtros a la consulta
-    if (!fechaFiltro.isEmpty()) {
-        sql += " AND DATE(fecha) = ?";
+    if (nombre != null && !nombre.isEmpty()) {
+        sql.append(" AND nombre LIKE ?");
     }
-    if (!nombreFiltro.isEmpty()) {
-        sql += " AND nombre LIKE ?";
+    if (fecha != null && !fecha.isEmpty()) {
+        sql.append(" AND DATE(fecha) = ?");
     }
 
-    try (Connection conn = ConexionBD.crearConexion(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-        int index = 1; // Índice para el PreparedStatement
+    try (Connection conn = ConexionBD.crearConexion();
+         PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
 
-        // Establecer parámetros de fecha si es necesario
-        if (!fechaFiltro.isEmpty()) {
-            LocalDate fecha = LocalDate.parse(fechaFiltro);
-            pstmt.setDate(index++, java.sql.Date.valueOf(fecha));  // Usa LocalDate para convertir a SQL Date
+        int paramIndex = 1;
+        if (nombre != null && !nombre.isEmpty()) {
+            pstmt.setString(paramIndex++, "%" + nombre + "%");
         }
-
-
-        // Establecer parámetros de nombre si es necesario
-        if (!nombreFiltro.isEmpty()) {
-            pstmt.setString(index++, "%" + nombreFiltro + "%"); // Usar LIKE para permitir coincidencias parciales
+        if (fecha != null && !fecha.isEmpty()) {
+            pstmt.setString(paramIndex++, fecha);
         }
 
         try (ResultSet rs = pstmt.executeQuery()) {
-            List<Evento> eventos = new ArrayList<>();
             while (rs.next()) {
                 Evento evento = new Evento();
+                evento.setEventoId(rs.getInt("evento_id"));
                 evento.setNombre(rs.getString("nombre"));
-                evento.setFecha(rs.getTimestamp("fecha").toLocalDateTime().toLocalDate());
+                 evento.setFecha(rs.getTimestamp("fecha").toLocalDateTime().toLocalDate());
                 eventos.add(evento);
             }
-            return eventos;
         }
     }
+    return eventos;
 }
 }
 

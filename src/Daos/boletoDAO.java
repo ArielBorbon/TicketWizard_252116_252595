@@ -102,6 +102,37 @@ public void actualizarPropietario(int boletoId, int nuevoPropietarioId) throws S
 }
     
     
+public List<Boleto> obtenerBoletosPorEvento(int eventoId) throws SQLException {
+    String sql = "SELECT * FROM Boletos WHERE evento_id = ?";
+    List<Boleto> boletos = new ArrayList<>();
+    
+    try (Connection conn = ConexionBD.crearConexion();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        
+        ps.setInt(1, eventoId);
+        
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Boleto boleto = new Boleto();
+                boleto.setBoletoId(rs.getInt("boleto_id"));
+                boleto.setNumSerie(rs.getString("num_serie"));
+                boleto.setFila(rs.getString("fila"));
+                boleto.setAsiento(rs.getString("asiento"));
+                boleto.setNumControl(rs.getString("num_control"));
+                boleto.setPrecioOriginal(rs.getDouble("precio_original"));
+                boleto.setEventoId(rs.getInt("evento_id"));
+                boleto.setPersonaId(rs.getInt("persona_id"));
+                boletos.add(boleto);
+            }
+        }
+    }
+    return boletos;
+}
+
+
+
+
+
     
     
     
