@@ -117,6 +117,11 @@ public class Persona {
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
+
+    @Override
+    public String toString() {
+        return "Persona{" + "personaId=" + personaId + ", correo=" + correo + ", nombreCompleto=" + nombreCompleto + ", domicilio=" + domicilio + ", fechaNacimiento=" + fechaNacimiento + ", edad=" + edad + ", totalBoletos=" + totalBoletos + ", saldo=" + saldo + ", usuario=" + usuario + ", contrasena=" + contrasena + '}';
+    }
     
     
     

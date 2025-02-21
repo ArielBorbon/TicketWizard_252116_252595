@@ -91,7 +91,22 @@ public class personaDAO {
     return null; // Si no se encuentra la persona
 }
 
+                public Persona obtenerPorUsuario(String personaUsuario) throws SQLException {
+    String sql = "SELECT * FROM Personas WHERE usuario = ?";
+    
+    try (Connection conn = ConexionBD.crearConexion();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
         
+        pstmt.setString(1, personaUsuario);
+        
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return mapearPersona(rs);
+            }
+        }
+    }
+    return null; // Si no se encuentra la persona
+}
         
     }
 

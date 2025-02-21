@@ -10,6 +10,7 @@ package Interfaces;
  */
 import Utileria.ConexionBD;
 import Daos.personaDAO;
+import Entidades.Persona;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -26,7 +27,7 @@ public class LoginFrame extends JFrame {
 
     public LoginFrame() {
         
-        personaDAO = new personaDAO();
+        this.personaDAO = new personaDAO();
         configurarVentana();
         initComponentes();
     }
@@ -34,7 +35,7 @@ public class LoginFrame extends JFrame {
     private void configurarVentana() {
         setTitle("Inicio de Sesión - TicketWizard");
         setSize(300, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         setLocationRelativeTo(null);
     }
 
@@ -75,11 +76,16 @@ public class LoginFrame extends JFrame {
         try {
             if (personaDAO.autenticar(usuario, contrasena)) {
                 JOptionPane.showMessageDialog(this, "¡Inicio de sesión exitoso!");
-                // Aquí iría la lógica para abrir la ventana principal
+                /////pendiente interfaz 1 parametro el usuario para que se lo lleve
                 // new MenuPrincipal(usuario).setVisible(true);
-                // this.dispose();
+                System.out.println("so far so good");
                 
-                new Interfaz1().setVisible(true);
+                Persona personaChida = personaDAO.obtenerPorUsuario(usuario);
+                System.out.println(personaChida);
+                
+                this.dispose();
+                
+                new Interfaz1(personaChida).setVisible(true);
                 
                 
                 

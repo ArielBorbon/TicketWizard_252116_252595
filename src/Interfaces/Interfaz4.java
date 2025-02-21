@@ -135,8 +135,6 @@ public class Interfaz4 extends javax.swing.JFrame {
 
     private void botonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegresarActionPerformed
         // TODO add your handling code here:
-        Interfaz1 interfaz1 = new Interfaz1();
-        interfaz1.setVisible(true);
         dispose();
     }//GEN-LAST:event_botonRegresarActionPerformed
 

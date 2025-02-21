@@ -97,12 +97,10 @@ public class Evento {
         this.totalBoletos = totalBoletos;
     }
 
-    @Override
-    public String toString() {
-        return "Evento{" + "eventoId=" + eventoId + ", nombre=" + nombre + ", fecha=" + fecha + ", recinto=" + recinto + ", ciudad=" + ciudad + ", estado=" + estado + ", descripcion=" + descripcion + ", totalBoletos=" + totalBoletos + '}';
-    }
-    
-    
+ @Override
+public String toString() {
+    return nombre + " - " + fecha.toString().substring(0, 16) + " - " + recinto;
+}
     
     
     

@@ -4,6 +4,7 @@
  */
 package Interfaces;
 
+import Entidades.Persona;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.LineBorder;
@@ -13,11 +14,13 @@ import javax.swing.border.LineBorder;
  * @author Alberto Jimenez
  */
 public class Interfaz1 extends javax.swing.JFrame {
-
+Persona personachida;
     /**
      * Creates new form Interfaz1
+     * @param personachida
      */
-    public Interfaz1() {
+    public Interfaz1(Persona personachida) {
+        this.personachida = personachida;
         initComponents();
     }
 
@@ -109,51 +112,29 @@ public class Interfaz1 extends javax.swing.JFrame {
 
     private void botonComprarBoletosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonComprarBoletosActionPerformed
         // TODO add your handling code here:
-        Interfaz3 interfaz3 = new Interfaz3();
-        interfaz3.setVisible(true);
-        dispose(); // Hola chicos de youtube
-        // Tontos loco locochon
-        // Muy loco super loco
+        
+        
+        
+        
+        
+        SeleccionarFiltros seleccionarFiltros = new SeleccionarFiltros(personachida);
+        seleccionarFiltros.setVisible(true);
+//
     }//GEN-LAST:event_botonComprarBoletosActionPerformed
 
     private void botonMiPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMiPerfilActionPerformed
-        // TODO add your handling code here:
+        
+        
+        //misma operacion que arriba nomas con clase del frame de mi perfil
+        
+        
+        
     }//GEN-LAST:event_botonMiPerfilActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Interfaz1().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonComprarBoletos;
