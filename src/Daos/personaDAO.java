@@ -32,7 +32,7 @@ public class personaDAO {
     public void agregarFondos(int personaId, double monto) throws SQLException {
         String sql = "UPDATE Personas SET saldo = saldo + ? WHERE persona_id = ?";
         
-        try (Connection conn = conexionBD.crearConexion();
+        try (Connection conn = ConexionBD.crearConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setDouble(1, monto);
@@ -54,6 +54,45 @@ public class personaDAO {
         persona.setUsuario(rs.getString("usuario"));
         persona.setContrasena(rs.getString("contrasena"));
         return persona;
+        
     }
+        
+        public boolean actualizarSaldo(int personaId, double monto) {
+        String sql = "UPDATE Personas SET saldo = saldo + ? WHERE persona_id = ?";
+        try (Connection conn = ConexionBD.crearConexion();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setDouble(1, monto);
+            pstmt.setInt(2, personaId);
+            return pstmt.executeUpdate() > 0;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        }
+        
+        
+        
+        public Persona obtenerPorId(int personaId) throws SQLException {
+    String sql = "SELECT * FROM Personas WHERE persona_id = ?";
+    
+    try (Connection conn = ConexionBD.crearConexion();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        
+        pstmt.setInt(1, personaId);
+        
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return mapearPersona(rs);
+            }
+        }
+    }
+    return null; // Si no se encuentra la persona
 }
+
+        
+        
+    }
+
 

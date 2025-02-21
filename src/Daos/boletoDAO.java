@@ -65,4 +65,46 @@ public class boletoDAO {
         boleto.setPersonaId(rs.getInt("persona_id"));
         return boleto;
     }
+    
+public Boleto obtenerPorId(int boletoId) throws SQLException {
+    String sql = "SELECT * FROM Boletos WHERE boleto_id = ?";
+    try (Connection conn = ConexionBD.crearConexion();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        
+        pstmt.setInt(1, boletoId);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return new Boleto(
+                    rs.getInt("boleto_id"),
+                    rs.getString("num_serie"),
+                    rs.getString("fila"),
+                    rs.getString("asiento"),
+                    rs.getString("num_control"),
+                    rs.getDouble("precio_original"),
+                    rs.getInt("evento_id"),
+                    rs.getInt("persona_id")
+                );
+            }
+        }
+    }
+    return null; // Si no se encuentra el boleto
+}
+
+public void actualizarPropietario(int boletoId, int nuevoPropietarioId) throws SQLException {
+    String sql = "UPDATE Boletos SET persona_id = ? WHERE boleto_id = ?";
+    try (Connection conn = ConexionBD.crearConexion();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        
+        pstmt.setInt(1, nuevoPropietarioId);
+        pstmt.setInt(2, boletoId);
+        pstmt.executeUpdate();
+    }
+}
+    
+    
+    
+    
+    
+    
+    
 }
