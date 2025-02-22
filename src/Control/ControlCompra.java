@@ -32,8 +32,9 @@ public boolean comprarBoletosDirectos(int compradorId, List<Integer> boletosIds)
         double total = calcularTotalCompra(boletosIds);
         Persona comprador = personaDAO.obtenerPorId(compradorId);
 
-        
-                boolean esCompraDirecta = true;
+        boolean esCompraDirecta = true;
+        double comisionTotal = 0.0;
+
         for (int boletoId : boletosIds) {
             int vendedorId = boletoDAO.obtenerVendedorBoleto(boletoId);
             if (vendedorId != 1) {
@@ -41,73 +42,71 @@ public boolean comprarBoletosDirectos(int compradorId, List<Integer> boletosIds)
                 break;
             }
         }
-                 Transaccion transaccion = new Transaccion();
-     //   transaccion.setFechaExpiracion(LocalDateTime.now()); // Siempre fecha/hora actual             ************
-        double comision = 0.0;
-        
-        transaccion.setTipo(esCompraDirecta ? "compra_directa" : "compra_reventa"); // Evita NullPointer
-        transaccion.setComision(esCompraDirecta ? 0.0 : total * 0.03); // Comisión 0% si es del sistema
-        
 
-            
-            transaccion.setComision(comision);
-        
- 
-            
-            
-        if (comprador.getSaldo() >= total) {
-            // Configurar transacción exitosa
-            transaccion.setMontoTotal(total);
-            transaccion.setEstado("completado");
-            transaccion.setFechaExpiracion(null);
-            transaccion.setPersonaId(compradorId);
-            transaccion.setNumTransaccion(generarNumTransaccion());
-            
-            int transaccionId = transaccionDAO.crearTransaccion(transaccion);
+        // Configurar la transacción
+        Transaccion transaccion = new Transaccion();
+        transaccion.setTipo(esCompraDirecta ? "compra_directa" : "compra_reventa");
+        transaccion.setNumTransaccion(generarNumTransaccion());
+        transaccion.setFechaHora(LocalDate.now());
+        transaccion.setMontoTotal(total);
+        transaccion.setEstado("completado");
+        transaccion.setPersonaId(compradorId);
 
-            
-            
-            // Transferir boletos y actualizar saldos
-            for (int boletoId : boletosIds) {
-                // Verificar si el boleto sigue disponible
-        Boleto boleto = boletoDAO.obtenerPorId(boletoId);
-        if (boleto.getPersonaId() != 1) { // Si no pertenece al sistema
-            throw new SQLException("El boleto " + boletoId + " ya fue vendido");
+        // Aplicar comisión del 3% si es una reventa
+        if (!esCompraDirecta) {
+            comisionTotal = total * 0.03;
+            transaccion.setComision(comisionTotal);
         }
-        
-        boolean exito = boletoDAO.actualizarPropietario(boletoId, compradorId);
-        if (!exito) {
-            conn.rollback();
-            return false;
+
+        // Verificar saldo del comprador
+        if (comprador.getSaldo() < (total + comisionTotal)) {
+            throw new SQLException("Saldo insuficiente para completar la compra.");
         }
-                boletoDAO.actualizarPropietario(boletoId, compradorId);
-                transaccionBoletoDAO.vincularBoletoATransaccion(transaccionId, boletoId);
+
+        // Crear la transacción en la base de datos
+        int transaccionId = transaccionDAO.crearTransaccion(transaccion);
+
+        // Procesar los boletos
+        for (int boletoId : boletosIds) {
+            Boleto boleto = boletoDAO.obtenerPorId(boletoId);
+
+            // Verificar si el boleto ya fue vendido
+            if (boleto.getPersonaId() != 1 && !boletoDAO.estaEnReventa(boletoId)) {
+                throw new SQLException("El boleto " + boletoId + " ya fue vendido.");
             }
 
-            personaDAO.actualizarSaldo(compradorId, -total);
-            personaDAO.actualizarSaldo(1, transaccion.getComision());
+            int vendedorId = boleto.getPersonaId();
 
-            
-                           if (!transaccion.getTipo().equals("compra_directa")) {
-  //      personaDAO.actualizarSaldo(vendedorId, total - comision);
-                           }
-            
-            
-            conn.commit();
-            return true;
-        } else {
-            // Reserva temporal
-            transaccion.setTipo("compra_directa");
-            transaccion.setMontoTotal(total);
-            transaccion.setEstado("pendiente");
-            transaccion.setFechaExpiracion(LocalDateTime.now().plusMinutes(10));
-            transaccion.setPersonaId(compradorId);
-            transaccion.setNumTransaccion(generarNumTransaccion());
+            // Transferir el boleto al comprador
+            boolean exito = boletoDAO.actualizarPropietarioBOOL(boletoId, compradorId);
+            if (!exito) {
+                conn.rollback();
+                return false;
+            }
 
-            transaccionDAO.crearTransaccion(transaccion);
-            conn.commit();
-            return false;
+            // Desmarcar el boleto de reventa si era de otro usuario
+            if (!esCompraDirecta) {
+                boletoDAO.marcarComoVendido(boletoId);
+            }
+
+            // Vincular boleto con la transacción
+            transaccionBoletoDAO.vincularBoletoATransaccion(transaccionId, boletoId);
+
+            // Si es una reventa, pagar al vendedor
+            if (!esCompraDirecta) {
+                double pagoVendedor = boleto.getPrecioOriginal() - comisionTotal;
+                personaDAO.actualizarSaldo(vendedorId, pagoVendedor);
+            }
         }
+
+        // Actualizar saldos del comprador y de la boletera
+        personaDAO.actualizarSaldo(compradorId, -(total + comisionTotal));
+        if (!esCompraDirecta) {
+            personaDAO.actualizarSaldo(1, comisionTotal); // Boletera recibe la comisión
+        }
+
+        conn.commit();
+        return true;
     } catch (SQLException e) {
         if (conn != null) conn.rollback();
         throw e;
@@ -118,6 +117,7 @@ public boolean comprarBoletosDirectos(int compradorId, List<Integer> boletosIds)
         }
     }
 }
+
 
 private String generarNumTransaccion() {
     return UUID.randomUUID().toString().substring(0, 8).toUpperCase();
