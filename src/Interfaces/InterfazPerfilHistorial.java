@@ -89,12 +89,18 @@ public class InterfazPerfilHistorial extends JFrame{
         botonHistorialBoletos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                InterfazHistorialBoletos iHB = new InterfazHistorialBoletos();
+                iHB.setVisible(true);
+                frame.dispose();
             }
         });
 
         botonHistorialReventas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                InterfazHistorialReventas iHR = new InterfazHistorialReventas();
+                iHR.setVisible(true);
+                frame.dispose();
             }
         });
         
