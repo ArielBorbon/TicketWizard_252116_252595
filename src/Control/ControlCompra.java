@@ -32,22 +32,54 @@ public boolean comprarBoletosDirectos(int compradorId, List<Integer> boletosIds)
         double total = calcularTotalCompra(boletosIds);
         Persona comprador = personaDAO.obtenerPorId(compradorId);
 
-        Transaccion transaccion = new Transaccion();
-        transaccion.setFechaExpiracion(LocalDateTime.now()); // Siempre fecha/hora actual
         
+                boolean esCompraDirecta = true;
+        for (int boletoId : boletosIds) {
+            int vendedorId = boletoDAO.obtenerVendedorBoleto(boletoId);
+            if (vendedorId != 1) {
+                esCompraDirecta = false;
+                break;
+            }
+        }
+                 Transaccion transaccion = new Transaccion();
+     //   transaccion.setFechaExpiracion(LocalDateTime.now()); // Siempre fecha/hora actual             ************
+        double comision = 0.0;
+        
+        transaccion.setTipo(esCompraDirecta ? "compra_directa" : "compra_reventa"); // Evita NullPointer
+        transaccion.setComision(esCompraDirecta ? 0.0 : total * 0.03); // Comisión 0% si es del sistema
+        
+
+            
+            transaccion.setComision(comision);
+        
+ 
+            
+            
         if (comprador.getSaldo() >= total) {
             // Configurar transacción exitosa
-            transaccion.setTipo("compra_directa");
             transaccion.setMontoTotal(total);
-            transaccion.setComision(total * 0.03);
             transaccion.setEstado("completado");
+            transaccion.setFechaExpiracion(null);
             transaccion.setPersonaId(compradorId);
             transaccion.setNumTransaccion(generarNumTransaccion());
-
+            
             int transaccionId = transaccionDAO.crearTransaccion(transaccion);
 
+            
+            
             // Transferir boletos y actualizar saldos
             for (int boletoId : boletosIds) {
+                // Verificar si el boleto sigue disponible
+        Boleto boleto = boletoDAO.obtenerPorId(boletoId);
+        if (boleto.getPersonaId() != 1) { // Si no pertenece al sistema
+            throw new SQLException("El boleto " + boletoId + " ya fue vendido");
+        }
+        
+        boolean exito = boletoDAO.actualizarPropietario(boletoId, compradorId);
+        if (!exito) {
+            conn.rollback();
+            return false;
+        }
                 boletoDAO.actualizarPropietario(boletoId, compradorId);
                 transaccionBoletoDAO.vincularBoletoATransaccion(transaccionId, boletoId);
             }
@@ -55,6 +87,12 @@ public boolean comprarBoletosDirectos(int compradorId, List<Integer> boletosIds)
             personaDAO.actualizarSaldo(compradorId, -total);
             personaDAO.actualizarSaldo(1, transaccion.getComision());
 
+            
+                           if (!transaccion.getTipo().equals("compra_directa")) {
+  //      personaDAO.actualizarSaldo(vendedorId, total - comision);
+                           }
+            
+            
             conn.commit();
             return true;
         } else {
@@ -62,7 +100,7 @@ public boolean comprarBoletosDirectos(int compradorId, List<Integer> boletosIds)
             transaccion.setTipo("compra_directa");
             transaccion.setMontoTotal(total);
             transaccion.setEstado("pendiente");
-        transaccion.setFechaExpiracion(LocalDateTime.now());
+            transaccion.setFechaExpiracion(LocalDateTime.now().plusMinutes(10));
             transaccion.setPersonaId(compradorId);
             transaccion.setNumTransaccion(generarNumTransaccion());
 
