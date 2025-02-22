@@ -117,7 +117,7 @@ public class InterfazPerfil {
         frame.add(botonReventa);
         frame.add(botonHistorial);
         frame.add(botonSaldo);
-        
+        // Que se vea la wea esta
         frame.setVisible(true);
     }
 
