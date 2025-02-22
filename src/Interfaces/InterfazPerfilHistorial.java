@@ -80,6 +80,9 @@ public class InterfazPerfilHistorial extends JFrame{
         botonHistorialTransacciones.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                InterfazHistorialTransaccion iHT = new InterfazHistorialTransaccion();
+                iHT.setVisible(true);
+                frame.dispose();
             }
         });
 
