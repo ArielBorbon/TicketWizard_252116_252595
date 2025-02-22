@@ -78,10 +78,8 @@ public class LoginFrame extends JFrame {
                 JOptionPane.showMessageDialog(this, "¡Inicio de sesión exitoso!");
                 /////pendiente interfaz 1 parametro el usuario para que se lo lleve
                 // new MenuPrincipal(usuario).setVisible(true);
-                System.out.println("so far so good");
                 
                 Persona personaChida = personaDAO.obtenerPorUsuario(usuario);
-                System.out.println(personaChida);
                 
                 this.dispose();
                 

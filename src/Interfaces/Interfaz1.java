@@ -4,6 +4,8 @@
  */
 package Interfaces;
 
+import Interfaces.ComprarBoleto.SeleccionarFiltros;
+import Interfaces.MiPerfil.InterfazPerfil;
 import Entidades.Persona;
 import javax.swing.*;
 import java.awt.*;
@@ -125,7 +127,8 @@ Persona personachida;
     private void botonMiPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMiPerfilActionPerformed
         
         
-        //misma operacion que arriba nomas con clase del frame de mi perfil
+                InterfazPerfil interfazPerfil = new InterfazPerfil(personachida);
+                 interfazPerfil.setVisible(true);
         
         
         

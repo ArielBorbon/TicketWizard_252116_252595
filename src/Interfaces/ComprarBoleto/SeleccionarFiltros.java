@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Interfaces;
+package Interfaces.ComprarBoleto;
 
 import Entidades.Persona;
 import com.toedter.calendar.JDateChooser;
@@ -57,7 +57,7 @@ setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);                              
                 }
 
                 // Abrir EventoGUI con los filtros
-                new SeleccionarEventoFrame2(nombre, fechaString, personachida).setVisible(true);
+                new SeleccionarEventoFrame(nombre, fechaString, personachida).setVisible(true);
                 dispose(); // Cerrar ventana actual
             }
         });

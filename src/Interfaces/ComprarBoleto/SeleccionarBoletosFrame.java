@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Interfaces;
+package Interfaces.ComprarBoleto;
 
+import Interfaces.ComprarBoleto.ConfirmarCompraFrame;
 import Daos.boletoDAO;
 import Entidades.Boleto;
 import Entidades.Evento;

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Interfaces;
+package Interfaces.ComprarBoleto;
 
 import Daos.boletoDAO;
 import Daos.eventoDAO;
@@ -37,7 +37,7 @@ import java.util.logging.Logger;
  *
  * @author PC Gamer
  */
-public class SeleccionarEventoFrame2 extends JFrame {
+public class SeleccionarEventoFrame extends JFrame {
      private JComboBox<String> comboEventos;
     private eventoDAO eventoDAO; // Declarar como variable de instancia
     private JButton botonContinuar;
@@ -46,7 +46,7 @@ public class SeleccionarEventoFrame2 extends JFrame {
     private Persona personachida;
     private List<Evento> listaEventos; // Lista para almacenar los eventos recuperados
 
-    public SeleccionarEventoFrame2(String nombreFiltro, String fechaFiltro, Persona personachida) {
+    public SeleccionarEventoFrame(String nombreFiltro, String fechaFiltro, Persona personachida) {
         this.personachida = personachida;
         this.nombreFiltro = nombreFiltro;
         this.fechaFiltro = fechaFiltro;
@@ -88,12 +88,12 @@ botonContinuar.addActionListener(new ActionListener() {
             try {
                 boletosChidos = boletoDao.obtenerBoletosPorEvento(eventoSeleccionado.getEventoId());
             } catch (SQLException ex) {
-                Logger.getLogger(SeleccionarEventoFrame2.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SeleccionarEventoFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
                 boletosChidos = boletoDao.obtenerBoletosPorEvento(eventoSeleccionado.getEventoId()); // Obtener boletos
             } catch (SQLException ex) {
-                Logger.getLogger(SeleccionarEventoFrame2.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SeleccionarEventoFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             if (boletosChidos.isEmpty()) { // Verifica si la lista de boletos está vacía
@@ -107,7 +107,7 @@ botonContinuar.addActionListener(new ActionListener() {
             JOptionPane.showMessageDialog(null, "Por favor, selecciona un evento.");
         }
     }
-});
+        });
     }
         
         

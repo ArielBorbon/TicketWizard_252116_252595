@@ -2,6 +2,7 @@
 package Entidades;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 /**
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 public class Evento {
     private int eventoId;
     private String nombre;
-    private LocalDate fecha;
+    private LocalDateTime fecha;
     private String recinto;
     private String ciudad;
     private String estado;
@@ -22,7 +23,7 @@ public class Evento {
     public Evento() {
     }
 
-    public Evento(int eventoId, String nombre, LocalDate fecha, String recinto, String ciudad, String estado, String descripcion, int totalBoletos) {
+    public Evento(int eventoId, String nombre, LocalDateTime fecha, String recinto, String ciudad, String estado, String descripcion, int totalBoletos) {
         this.eventoId = eventoId;
         this.nombre = nombre;
         this.fecha = fecha;
@@ -49,11 +50,11 @@ public class Evento {
         this.nombre = nombre;
     }
 
-    public LocalDate getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 

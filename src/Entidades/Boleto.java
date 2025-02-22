@@ -15,8 +15,20 @@ public class Boleto {
     private double precioOriginal;
     private int eventoId;
     private int personaId;
+    
+    
+    
+    private Evento evento; // Objeto Evento completo (para la lógica)
 
     public Boleto() {
+    }
+
+    public Evento getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
     }
 
     public Boleto(int boletoId, String numSerie, String fila, String asiento, String numControl, double precioOriginal, int eventoId, int personaId) {

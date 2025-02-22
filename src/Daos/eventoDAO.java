@@ -46,7 +46,7 @@ private final ConexionBD conexionBD = new ConexionBD();
         
 
         Timestamp timestamp = rs.getTimestamp("fecha");
-        evento.setFecha(timestamp.toLocalDateTime().toLocalDate());
+        evento.setFecha(timestamp.toLocalDateTime());
         
         evento.setRecinto(rs.getString("recinto"));
         evento.setCiudad(rs.getString("ciudad"));
@@ -77,7 +77,7 @@ public List<Evento> listarEventos() throws SQLException {
             // Convertir Timestamp a LocalDate
             if (timestamp != null) {
                 LocalDate localDate = timestamp.toLocalDateTime().toLocalDate();
-                evento.setFecha(localDate);  // Asignar el LocalDate al setter
+                evento.setFecha(timestamp.toLocalDateTime());  // Asignar el LocalDate al setter
             }
             
             evento.setRecinto(rs.getString("recinto"));
@@ -122,7 +122,7 @@ public List<Evento> listarEventos() throws SQLException {
                 Evento evento = new Evento();
                 evento.setEventoId(rs.getInt("evento_id"));
                 evento.setNombre(rs.getString("nombre"));
-                 evento.setFecha(rs.getTimestamp("fecha").toLocalDateTime().toLocalDate());
+                 evento.setFecha(rs.getTimestamp("fecha").toLocalDateTime());
                 eventos.add(evento);
             }
         }

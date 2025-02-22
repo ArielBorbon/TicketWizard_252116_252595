@@ -15,7 +15,7 @@ public class Transaccion {
     private int transaccionId;
     private String numTransaccion;
     private LocalDate fechaHora;
-    private String tipo;
+    private String tipo = "compra_directa"; // Valor por defecto
     private double montoTotal;
     private double comision;
     private String estado;
@@ -66,7 +66,7 @@ public class Transaccion {
     }
 
     public void setTipo(String tipo) {
-        this.tipo = tipo;
+        this.tipo = tipo != null ? tipo : "compra_directa"; // Evita asignar null
     }
 
     public double getMontoTotal() {

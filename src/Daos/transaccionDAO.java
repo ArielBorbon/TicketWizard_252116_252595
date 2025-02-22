@@ -73,8 +73,15 @@ public int crearTransaccion(Transaccion transaccion) throws SQLException {
         pstmt.setDouble(3, transaccion.getMontoTotal());
         pstmt.setDouble(4, transaccion.getComision());
         pstmt.setString(5, transaccion.getEstado());
-        pstmt.setTimestamp(6, Timestamp.valueOf(transaccion.getFechaExpiracion())); // Conversión directa
+     //   pstmt.setTimestamp(6, Timestamp.valueOf(transaccion.getFechaExpiracion())); // Conversión directa
         pstmt.setInt(7, transaccion.getPersonaId());
+        
+        if (transaccion.getFechaExpiracion() != null) {
+            pstmt.setTimestamp(6, Timestamp.valueOf(transaccion.getFechaExpiracion()));
+        } else {
+            pstmt.setNull(6, Types.TIMESTAMP); // Permite NULL en la BD
+        }
+        
         
         pstmt.executeUpdate();
         
