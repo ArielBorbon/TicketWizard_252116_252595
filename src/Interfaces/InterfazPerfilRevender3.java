@@ -91,7 +91,7 @@ public class InterfazPerfilRevender3 extends JFrame{
         confirmar.setForeground(Color.WHITE);
         confirmar.setFont(new Font("Arial", Font.BOLD, 12));
         confirmar.setSize(100, 36);
-        confirmar.setLocation(frame.getWidth() - confirmar.getWidth() - 35, 350);
+        confirmar.setLocation(frame.getWidth() - confirmar.getWidth() - 35, 200);
 
         confirmar.addActionListener(new ActionListener() {
             @Override
