@@ -15,12 +15,10 @@ import javax.swing.*;
  * Alberto Jimenez Garcia 252595
  */
 public class InterfazPerfil extends JFrame {
-
+    
     /**
      * @param args the command line arguments
      */
-    
-
     public static void main(String[] args) {
         // El frame loco
         JFrame frame = new JFrame("Perfil");
@@ -98,6 +96,8 @@ public class InterfazPerfil extends JFrame {
         botonReventa.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                InterfazPerfilRevender.getInstance().setVisible(true);
+                frame.dispose();
             }
         });
 
@@ -113,6 +113,8 @@ public class InterfazPerfil extends JFrame {
         botonSaldo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                InterfazPerfilIngresarFondos.getInstance().setVisible(true);
+                frame.dispose();
             }
         });
 
