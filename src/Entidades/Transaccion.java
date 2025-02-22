@@ -2,6 +2,7 @@
 package Entidades;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 
@@ -18,13 +19,13 @@ public class Transaccion {
     private double montoTotal;
     private double comision;
     private String estado;
-    private LocalDate fechaExpiracion;
+   private LocalDateTime fechaExpiracion;
     private int personaId;
 
     public Transaccion() {
     }
 
-    public Transaccion(int transaccionId, String numTransaccion, LocalDate fechaHora, String tipo, double montoTotal, double comision, String estado, LocalDate fechaExpiracion, int personaId) {
+    public Transaccion(int transaccionId, String numTransaccion, LocalDate fechaHora, String tipo, double montoTotal, double comision, String estado, LocalDateTime fechaExpiracion, int personaId) {
         this.transaccionId = transaccionId;
         this.numTransaccion = numTransaccion;
         this.fechaHora = fechaHora;
@@ -92,11 +93,11 @@ public class Transaccion {
         this.estado = estado;
     }
 
-    public LocalDate getFechaExpiracion() {
+    public LocalDateTime getFechaExpiracion() {
         return fechaExpiracion;
     }
 
-    public void setFechaExpiracion(LocalDate fechaExpiracion) {
+    public void setFechaExpiracion(LocalDateTime fechaExpiracion) {
         this.fechaExpiracion = fechaExpiracion;
     }
 

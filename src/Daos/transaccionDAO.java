@@ -6,6 +6,7 @@ import Utileria.ConexionBD;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -52,7 +53,7 @@ private final ConexionBD conexionBD = new ConexionBD();
         
         Timestamp expiracion = rs.getTimestamp("fecha_expiracion");
         if (expiracion != null) {
-            transaccion.setFechaExpiracion(expiracion.toLocalDateTime().toLocalDate());
+            transaccion.setFechaExpiracion(expiracion.toLocalDateTime());
         }
         
         transaccion.setPersonaId(rs.getInt("persona_id"));
@@ -61,7 +62,9 @@ private final ConexionBD conexionBD = new ConexionBD();
     
     
 public int crearTransaccion(Transaccion transaccion) throws SQLException {
-    String sql = "INSERT INTO Transacciones (num_transaccion, tipo, monto_total, comision, estado, fecha_expiracion, persona_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    String sql = "INSERT INTO Transacciones (num_transaccion, tipo, monto_total, comision, estado, fecha_expiracion, persona_id) "
+               + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+    
     try (Connection conn = ConexionBD.crearConexion();
          PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
         
@@ -70,27 +73,15 @@ public int crearTransaccion(Transaccion transaccion) throws SQLException {
         pstmt.setDouble(3, transaccion.getMontoTotal());
         pstmt.setDouble(4, transaccion.getComision());
         pstmt.setString(5, transaccion.getEstado());
-       LocalDate fechaExpiracion = transaccion.getFechaExpiracion();
-
-// Convertir LocalDate a LocalDateTime (añadir una hora, como 00:00:00 si solo te interesa la fecha)
-LocalDateTime fechaExpiracionConHora = fechaExpiracion.atStartOfDay();
-
-// Convertir LocalDateTime a Timestamp
-Timestamp timestamp = Timestamp.valueOf(fechaExpiracionConHora);
-
-// Usar el Timestamp en el PreparedStatement
-pstmt.setTimestamp(6, timestamp);
+        pstmt.setTimestamp(6, Timestamp.valueOf(transaccion.getFechaExpiracion())); // Conversión directa
         pstmt.setInt(7, transaccion.getPersonaId());
         
-        int affectedRows = pstmt.executeUpdate();
-        if (affectedRows > 0) {
-            try (ResultSet rs = pstmt.getGeneratedKeys()) {
-                if (rs.next()) {
-                    return rs.getInt(1); // Retorna el ID generado
-                }
-            }
+        pstmt.executeUpdate();
+        
+        try (ResultSet rs = pstmt.getGeneratedKeys()) {
+            if (rs.next()) return rs.getInt(1);
         }
-        throw new SQLException("No se pudo crear la transacción, ningún ID generado.");
+        throw new SQLException("No se generó ID de transacción");
     }
 }
     

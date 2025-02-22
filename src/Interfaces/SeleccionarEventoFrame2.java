@@ -100,7 +100,7 @@ botonContinuar.addActionListener(new ActionListener() {
                 JOptionPane.showMessageDialog(null, "No hay boletos disponibles para este evento.");
             } else {
                 // Si hay boletos disponibles, abre el siguiente frame
-                new SeleccionarBoletosFrame(eventoSeleccionado, boletosChidos).setVisible(true);
+                new SeleccionarBoletosFrame(eventoSeleccionado, boletosChidos, personachida).setVisible(true);
                 dispose(); // Cierra la ventana actual
             }
         } else {

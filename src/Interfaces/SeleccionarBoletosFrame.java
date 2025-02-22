@@ -33,10 +33,11 @@ public class SeleccionarBoletosFrame extends JFrame {
     private boletoDAO boletoDAO;
     private List<Boleto> boletosChidos; // Lista de boletos disponibles para el evento
     private List<Boleto> boletos;
-    public SeleccionarBoletosFrame(Evento eventoChido, List<Boleto> boletosChidos) {
+    public SeleccionarBoletosFrame(Evento eventoChido, List<Boleto> boletosChidos, Persona personachida) {
         this.eventoChido = eventoChido;
         boletoDAO = new boletoDAO();
         this.boletosChidos = boletosChidos;
+        this.personaChida = personachida;
         initComponents();
         cargarBoletos();
     }
@@ -88,15 +89,21 @@ public class SeleccionarBoletosFrame extends JFrame {
     }
 
     private void continuarAction() {
-        int indiceSeleccionado = comboBoletos.getSelectedIndex();
-        if (indiceSeleccionado >= 0 && boletos != null && !boletos.isEmpty()) {
-            Boleto boletoSeleccionado = boletos.get(indiceSeleccionado);
-            // Por ahora, simplemente mostramos un mensaje con el boleto seleccionado.
-            JOptionPane.showMessageDialog(this, "Boleto seleccionado: " + boletoSeleccionado.getNumSerie());
-        } else {
-            JOptionPane.showMessageDialog(this, "Seleccione un boleto", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
+    int indiceSeleccionado = comboBoletos.getSelectedIndex();
+    if (indiceSeleccionado >= 0 && boletos != null && !boletos.isEmpty()) {
+        Boleto boletoSeleccionado = boletos.get(indiceSeleccionado);
+        
+        // Abrir nueva ventana de confirmación
+        new ConfirmarCompraFrame(eventoChido, personaChida, boletoSeleccionado).setVisible(true);
+        this.dispose(); // Cerrar ventana actual
+        
+    } else {
+        JOptionPane.showMessageDialog(this, 
+            "Seleccione un boleto", 
+            "Advertencia", 
+            JOptionPane.WARNING_MESSAGE);
     }
+}
 
 
 }

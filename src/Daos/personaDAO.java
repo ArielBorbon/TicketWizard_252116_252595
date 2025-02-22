@@ -57,20 +57,16 @@ public class personaDAO {
         
     }
         
-        public boolean actualizarSaldo(int personaId, double monto) {
-        String sql = "UPDATE Personas SET saldo = saldo + ? WHERE persona_id = ?";
-        try (Connection conn = ConexionBD.crearConexion();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
-            pstmt.setDouble(1, monto);
-            pstmt.setInt(2, personaId);
-            return pstmt.executeUpdate() > 0;
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-        }
+public void actualizarSaldo(int personaId, double monto) throws SQLException {
+    String sql = "UPDATE Personas SET saldo = saldo + ? WHERE persona_id = ?";
+    try (Connection conn = ConexionBD.crearConexion();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        
+        pstmt.setDouble(1, monto);
+        pstmt.setInt(2, personaId);
+        pstmt.executeUpdate();
+    }
+}
         
         
         
