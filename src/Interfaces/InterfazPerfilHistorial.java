@@ -12,18 +12,16 @@ import javax.swing.*;
 
 /**
  *
- * @author Alberto Jimenez
+ * @author Ariel Eduardo Borbon Izaguirre 252116
+ * Alberto Jimenez Garcia 252595
  */
-public class InterfazPerfilHistorial {
+public class InterfazPerfilHistorial extends JFrame{
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
+    public InterfazPerfilHistorial() {
         // JFrame
         JFrame frame = new JFrame("Historial");
         frame.setSize(630, 477);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setLayout(null);
         
