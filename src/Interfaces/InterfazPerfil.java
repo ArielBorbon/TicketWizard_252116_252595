@@ -11,22 +11,24 @@ import javax.swing.*;
 
 /**
  *
- * @author Ariel Eduardo Borbon Izaguirre 252116
+ * @author Ariel Eduardo Borbon Izaguirre 252116 
  * Alberto Jimenez Garcia 252595
  */
-public class InterfazPerfil {
+public class InterfazPerfil extends JFrame {
 
     /**
      * @param args the command line arguments
      */
+    
+
     public static void main(String[] args) {
         // El frame loco
         JFrame frame = new JFrame("Perfil");
         frame.setSize(630, 477);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setLayout(null);
-        
+
         // Todo lo que se agrego al frame
         JLabel TicketWizard = new JLabel("TicketWizard");
         JButton botonRegresar = new JButton("Regresar");
@@ -60,36 +62,36 @@ public class InterfazPerfil {
             frame.add(label);
             startY += 30;
         }
-        
+
         // Porque dio webis acomodar bien 
         int posX = frame.getWidth() - botonReventa.getWidth() - 200;
-        
+
         // Boton de la reventa a pesar de que revender es ilegal :0
         botonReventa.setFont(new Font("Arial", Font.BOLD, 14));
-        botonReventa.setBackground(new Color(0x65, 0x55, 0x8F)); 
+        botonReventa.setBackground(new Color(0x65, 0x55, 0x8F));
         botonReventa.setForeground(Color.BLACK);
         botonReventa.setSize(160, 40);
         botonReventa.setLocation(posX, 130);
-        
+
         // boton del historial locochon
         botonHistorial.setFont(new Font("Arial", Font.BOLD, 14));
-        botonHistorial.setBackground(new Color(0x65, 0x55, 0x8F)); 
+        botonHistorial.setBackground(new Color(0x65, 0x55, 0x8F));
         botonHistorial.setForeground(Color.BLACK);
         botonHistorial.setSize(120, 40);
         botonHistorial.setLocation(posX, 200);
-        
+
         // Boton de saldo para el pobreton ese :(
         botonSaldo.setFont(new Font("Arial", Font.BOLD, 14));
-        botonSaldo.setBackground(new Color(0x65, 0x55, 0x8F)); 
+        botonSaldo.setBackground(new Color(0x65, 0x55, 0x8F));
         botonSaldo.setForeground(Color.BLACK);
         botonSaldo.setSize(160, 40);
         botonSaldo.setLocation(posX, 270);
-        
+
         // ActionListeners los que hacen el aca
         botonRegresar.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {                
-                frame.dispose(); 
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
             }
         });
 
@@ -102,6 +104,9 @@ public class InterfazPerfil {
         botonHistorial.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                InterfazPerfilHistorial interfazPerfilHistorial = new InterfazPerfilHistorial();
+                interfazPerfilHistorial.setVisible(true);
+                frame.dispose();
             }
         });
 
@@ -110,7 +115,7 @@ public class InterfazPerfil {
             public void actionPerformed(ActionEvent e) {
             }
         });
-        
+
         // Agregarlos y ya :)
         frame.add(TicketWizard);
         frame.add(botonRegresar);
