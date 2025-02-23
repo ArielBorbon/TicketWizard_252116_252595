@@ -178,31 +178,69 @@ public boolean actualizarPropietarioBOOL(int boletoId, int compradorId) throws S
 }
 
 
+//boletoDAO.actualizarEstado(boletoChido.getBoletoId(), "vendido");
+public boolean actualizarEstado(int boletoId, String nuevoEstado) throws SQLException {
+    String sql = "UPDATE Boletos SET estado = ? WHERE boleto_id = ?";
+    
+    try (Connection conn = ConexionBD.crearConexion();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        
+        pstmt.setString(1, nuevoEstado); // Ej: "vendido", "reservado", "disponible"
+        pstmt.setInt(2, boletoId);
+        
+        int filasAfectadas = pstmt.executeUpdate();
+        return filasAfectadas > 0;
+        
+    } catch (SQLException e) {
+        System.err.println("Error al actualizar estado del boleto ID " + boletoId);
+        throw e;
+    }
+}
+
+    public boolean actualizarEstadoYPropietario(int boletoId, String nuevoEstado, int nuevoPropietarioId) throws SQLException {
+    String sql = "UPDATE Boletos SET estado = ?, persona_id = ? WHERE boleto_id = ?";
+    
+    try (Connection conn = ConexionBD.crearConexion();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        
+        pstmt.setString(1, nuevoEstado);
+        pstmt.setInt(2, nuevoPropietarioId);
+        pstmt.setInt(3, boletoId);
+        
+        return pstmt.executeUpdate() > 0;
+    }
+}
 
 
     
     
-public List<Boleto> obtenerBoletosPorEvento(int eventoId) throws SQLException {
-    String sql = "SELECT * FROM Boletos WHERE evento_id = ? AND persona_id = 1";
+public List<Boleto> obtenerBoletosPorEvento(int eventoId, int usuarioId) throws SQLException {
+    String sql = 
+        "SELECT b.* FROM Boletos b " +
+        "LEFT JOIN Transacciones_boletos tb ON b.boleto_id = tb.boleto_id " +
+        "LEFT JOIN Transacciones t ON tb.transaccion_id = t.transaccion_id " +
+        "WHERE b.evento_id = ? " +
+        "AND (" +
+            "b.estado = 'disponible' " + // Boletos disponibles para todos
+            "OR (" +
+                "b.estado = 'reservado' " + // Boletos reservados
+                "AND t.persona_id = ? " + // Solo si son reservados por el usuario actual
+                "AND t.estado = 'pendiente' " + // Y la transacción está pendiente
+                "AND t.fecha_expiracion > NOW()" + // Y no han expirado
+            ")" +
+        ")";
+    
     List<Boleto> boletos = new ArrayList<>();
     
     try (Connection conn = ConexionBD.crearConexion();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
         
-        ps.setInt(1, eventoId);
+        pstmt.setInt(1, eventoId);
+        pstmt.setInt(2, usuarioId); // Usuario actual
         
-        try (ResultSet rs = ps.executeQuery()) {
+        try (ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
-                Boleto boleto = new Boleto();
-                boleto.setBoletoId(rs.getInt("boleto_id"));
-                boleto.setNumSerie(rs.getString("num_serie"));
-                boleto.setFila(rs.getString("fila"));
-                boleto.setAsiento(rs.getString("asiento"));
-                boleto.setNumControl(rs.getString("num_control"));
-                boleto.setPrecioOriginal(rs.getDouble("precio_original"));
-                boleto.setEventoId(rs.getInt("evento_id"));
-                boleto.setPersonaId(rs.getInt("persona_id"));
-                boletos.add(boleto);
+                boletos.add(mapearBoleto(rs));
             }
         }
     }
@@ -309,4 +347,23 @@ public void marcarComoEnReventa(int boletoId) throws SQLException {
         pstmt.executeUpdate();
     }
 }
+
+
+
+public boolean reservarBoleto(int boletoId, int transaccionId) throws SQLException {
+    String sql = "UPDATE Boletos SET estado = 'reservado', persona_id = ? WHERE boleto_id = ?";
+    try (Connection conn = ConexionBD.crearConexion();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+         
+        pstmt.setInt(1, transaccionId); // Usar transaccionId como "dueño temporal"
+        pstmt.setInt(2, boletoId);
+        
+        return pstmt.executeUpdate() > 0;
+    }
+}
+
+
+
+
+
 }

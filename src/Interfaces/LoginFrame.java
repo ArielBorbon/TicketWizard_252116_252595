@@ -8,6 +8,7 @@ package Interfaces;
  *
  * @author PC Gamer
  */
+import Control.ControlReservas;
 import Utileria.ConexionBD;
 import Daos.personaDAO;
 import Entidades.Persona;
@@ -26,7 +27,7 @@ public class LoginFrame extends JFrame {
     private personaDAO personaDAO;
 
     public LoginFrame() {
-        
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         this.personaDAO = new personaDAO();
         configurarVentana();
         initComponentes();
@@ -113,7 +114,11 @@ public class LoginFrame extends JFrame {
                 } catch (SQLException ex) {
                     Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                ControlReservas.iniciarLiberacionAutomatica(); // <-- Iniciar aquí
                 new LoginFrame().setVisible(true);
+                
+                
+                
             }
         });
     }

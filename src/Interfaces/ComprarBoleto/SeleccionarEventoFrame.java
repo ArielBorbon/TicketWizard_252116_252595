@@ -80,34 +80,37 @@ botonContinuar.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
         int selectedIndex = comboEventos.getSelectedIndex();
         
-        if (selectedIndex != -1) { // Verifica que se haya seleccionado un evento
-            Evento eventoSeleccionado = listaEventos.get(selectedIndex); // Obtiene el evento correspondiente
-            
-            boletoDAO boletoDao = new boletoDAO(); // Instancia del DAO
-            List<Boleto> boletosChidos = null;
+        if (selectedIndex != -1) {
+            Evento eventoSeleccionado = listaEventos.get(selectedIndex);
+            boletoDAO boletoDao = new boletoDAO();
+            List<Boleto> boletosChidos = new ArrayList<>(); // Inicializar lista vacía por defecto
+
             try {
-                boletosChidos = boletoDao.obtenerBoletosPorEvento(eventoSeleccionado.getEventoId());
+                // ==== SOLUCIÓN: Eliminar la llamada duplicada ====
+                boletosChidos = boletoDao.obtenerBoletosPorEvento(eventoSeleccionado.getEventoId(), personachida.getPersonaId());
+
+                if (boletosChidos.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "No hay boletos disponibles para este evento.");
+                } else {
+                    new SeleccionarBoletosFrame(eventoSeleccionado, boletosChidos, personachida).setVisible(true);
+                    dispose();
+                }
+
             } catch (SQLException ex) {
-                Logger.getLogger(SeleccionarEventoFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                boletosChidos = boletoDao.obtenerBoletosPorEvento(eventoSeleccionado.getEventoId()); // Obtener boletos
-            } catch (SQLException ex) {
-                Logger.getLogger(SeleccionarEventoFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            if (boletosChidos.isEmpty()) { // Verifica si la lista de boletos está vacía
+                // ==== SOLUCIÓN: Notificar al usuario y evitar NullPointer ====
+                JOptionPane.showMessageDialog(null, 
+                    "Error al consultar los boletos. Intente nuevamente.", 
+                    "Error de conexión", 
+                    JOptionPane.ERROR_MESSAGE
+                );
                 JOptionPane.showMessageDialog(null, "No hay boletos disponibles para este evento.");
-            } else {
-                // Si hay boletos disponibles, abre el siguiente frame
-                new SeleccionarBoletosFrame(eventoSeleccionado, boletosChidos, personachida).setVisible(true);
-                dispose(); // Cierra la ventana actual
             }
+
         } else {
             JOptionPane.showMessageDialog(null, "Por favor, selecciona un evento.");
         }
     }
-        });
+});
     }
         
         

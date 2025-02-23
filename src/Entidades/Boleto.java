@@ -15,7 +15,8 @@ public class Boleto {
     private double precioOriginal;
     private int eventoId;
     private int personaId;
-    private Evento evento; // Objeto Evento completo (para la lógica)
+    private Evento evento;
+    public String estado;// Objeto Evento completo (para la lógica)
 
     public Boleto() {
     }
@@ -39,6 +40,15 @@ public class Boleto {
         this.personaId = personaId;
     }
 
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    
     
     
     

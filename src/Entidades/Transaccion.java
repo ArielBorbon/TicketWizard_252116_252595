@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class Transaccion {
     private int transaccionId;
     private String numTransaccion;
-    private LocalDate fechaHora;
+    private LocalDateTime fechaHora;
     private String tipo = "compra_directa"; // Valor por defecto
     private double montoTotal;
     private double comision;
@@ -25,7 +25,7 @@ public class Transaccion {
     public Transaccion() {
     }
 
-    public Transaccion(int transaccionId, String numTransaccion, LocalDate fechaHora, String tipo, double montoTotal, double comision, String estado, LocalDateTime fechaExpiracion, int personaId) {
+    public Transaccion(int transaccionId, String numTransaccion, LocalDateTime fechaHora, String tipo, double montoTotal, double comision, String estado, LocalDateTime fechaExpiracion, int personaId) {
         this.transaccionId = transaccionId;
         this.numTransaccion = numTransaccion;
         this.fechaHora = fechaHora;
@@ -53,11 +53,11 @@ public class Transaccion {
         this.numTransaccion = numTransaccion;
     }
 
-    public LocalDate getFechaHora() {
+    public LocalDateTime getFechaHora() {
         return fechaHora;
     }
 
-    public void setFechaHora(LocalDate fechaHora) {
+    public void setFechaHora(LocalDateTime fechaHora) {
         this.fechaHora = fechaHora;
     }
 

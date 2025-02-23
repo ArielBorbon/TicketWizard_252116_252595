@@ -35,6 +35,12 @@ public class SeleccionarBoletosFrame extends JFrame {
     private List<Boleto> boletosChidos; // Lista de boletos disponibles para el evento
     private List<Boleto> boletos;
     public SeleccionarBoletosFrame(Evento eventoChido, List<Boleto> boletosChidos, Persona personachida) {
+        
+            if (boletosChidos == null) {
+        throw new IllegalArgumentException("La lista de boletos no puede ser nula.");
+    }
+        
+        
         this.eventoChido = eventoChido;
         boletoDAO = new boletoDAO();
         this.boletosChidos = boletosChidos;
@@ -72,27 +78,22 @@ public class SeleccionarBoletosFrame extends JFrame {
         setVisible(true);
     }
 
-    private void cargarBoletos() {
-        try {
-            // Se consulta en la BD los boletos disponibles para el evento.
-            // Se asume que existe el método obtenerBoletosPorEvento(int eventoId) en boletoDAO.
-            boletos = boletoDAO.obtenerBoletosPorEvento(eventoChido.getEventoId());
-            comboBoletos.removeAllItems();
-            for (Boleto boleto : boletos) {
-                // Se muestran datos relevantes del boleto (por ejemplo, número de serie y asiento).
-                comboBoletos.addItem("Asiento: " + boleto.getAsiento() + " - Fila: " + boleto.getFila() + " -  Precio: " + boleto.getPrecioOriginal());
-                
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al cargar boletos", "Error", JOptionPane.ERROR_MESSAGE);
+private void cargarBoletos() {
+    comboBoletos.removeAllItems();
+    if (boletosChidos != null && !boletosChidos.isEmpty()) { // Usar la lista proporcionada
+        for (Boleto boleto : boletosChidos) {
+            comboBoletos.addItem("Asiento: " + boleto.getAsiento() + " - Fila: " + boleto.getFila() + " -  Precio: " + boleto.getPrecioOriginal());
         }
+    } else {
+        JOptionPane.showMessageDialog(this, "No hay boletos disponibles.");
+        dispose();
     }
+}
 
     private void continuarAction() {
     int indiceSeleccionado = comboBoletos.getSelectedIndex();
-    if (indiceSeleccionado >= 0 && boletos != null && !boletos.isEmpty()) {
-        Boleto boletoSeleccionado = boletos.get(indiceSeleccionado);
+    if (indiceSeleccionado != -1 && boletosChidos != null && !boletosChidos.isEmpty()) {
+        Boleto boletoSeleccionado = boletosChidos.get(indiceSeleccionado); // <- Usar boletosChidos
         
         // Abrir nueva ventana de confirmación
         new ConfirmarCompraFrame(eventoChido, personaChida, boletoSeleccionado).setVisible(true);

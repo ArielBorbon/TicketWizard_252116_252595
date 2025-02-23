@@ -40,6 +40,9 @@ public class CantidadFondosFrame extends JFrame {
                     
                     ConfirmarSaldoFrame framesaldo = new ConfirmarSaldoFrame(personaChila, cantidad);
                     framesaldo.setVisible(true);
+                    dispose();
+                    
+                    
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(CantidadFondosFrame.this,
                             "Por favor, ingrese un número válido.", "Error", JOptionPane.ERROR_MESSAGE);

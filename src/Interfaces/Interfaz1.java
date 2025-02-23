@@ -4,13 +4,17 @@
  */
 package Interfaces;
 
+import Daos.transaccionDAO;
 import Interfaces.ComprarBoleto.SeleccionarFiltros;
 import Interfaces.MiPerfil.InterfazPerfil;
 import Entidades.Persona;
+import Entidades.Transaccion;
+import java.awt.Color;
+import java.awt.Font;
+import java.util.List;
 import javax.swing.*;
-import java.awt.*;
 import javax.swing.border.LineBorder;
-
+import java.sql.*;
 /**
  *
  * @author Alberto Jimenez
@@ -23,7 +27,9 @@ Persona personachida;
      */
     public Interfaz1(Persona personachida) {
         this.personachida = personachida;
+        verificarComprasPendientes();
         initComponents();
+        
     }
 
     /**
@@ -134,6 +140,29 @@ Persona personachida;
      * @param args the command line arguments
      */
 
+    private void verificarComprasPendientes() {
+        try {
+            List<Transaccion> pendientes = new transaccionDAO().obtenerTransaccionesPendientes(personachida.getPersonaId());
+            
+            if (!pendientes.isEmpty()) {
+                JOptionPane.showMessageDialog(
+                    null, 
+                    "Tienes " + pendientes.size() + " Compras pendientes.. Favor de añadir Fondos para continuar con estas?",
+                    "Compras Pendientes",
+                    JOptionPane.WARNING_MESSAGE
+                );
+                
+               // if (opcion == JOptionPane.YES_OPTION) {
+                //    new CompletarCompraPendienteFrame(personachida).setVisible(true);
+                //}
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonComprarBoletos;
