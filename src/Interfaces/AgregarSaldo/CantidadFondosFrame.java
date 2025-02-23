@@ -37,6 +37,7 @@ public class CantidadFondosFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     double cantidad = Double.parseDouble(cantidadField.getText());
+                    
                     ConfirmarSaldoFrame framesaldo = new ConfirmarSaldoFrame(personaChila, cantidad);
                     framesaldo.setVisible(true);
                 } catch (NumberFormatException ex) {

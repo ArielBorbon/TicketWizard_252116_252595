@@ -78,6 +78,9 @@ public class ConfigurarReventaFrame extends JFrame {
             default -> 0.00;
         };
 
+        System.out.println(comisionSeleccionada);
+        System.out.println(boletoChido.getPrecioOriginal());
+        
         
         ConfirmarReventaFrame pantallaconfirmacionReventa = new ConfirmarReventaFrame(personaChida, boletoChido, comisionSeleccionada);
         pantallaconfirmacionReventa.setVisible(true);

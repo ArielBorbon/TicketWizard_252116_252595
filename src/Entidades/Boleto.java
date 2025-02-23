@@ -15,9 +15,6 @@ public class Boleto {
     private double precioOriginal;
     private int eventoId;
     private int personaId;
-    
-    
-    
     private Evento evento; // Objeto Evento completo (para la lógica)
 
     public Boleto() {

@@ -115,10 +115,6 @@ Persona personachida;
     private void botonComprarBoletosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonComprarBoletosActionPerformed
         // TODO add your handling code here:
         
-        
-        
-        
-        
         SeleccionarFiltros seleccionarFiltros = new SeleccionarFiltros(personachida);
         seleccionarFiltros.setVisible(true);
 //

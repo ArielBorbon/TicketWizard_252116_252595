@@ -109,6 +109,7 @@ public Boleto obtenerPorId(int boletoId) throws SQLException {
         pstmt.setInt(1, boletoId);
         try (ResultSet rs = pstmt.executeQuery()) {
             if (rs.next()) {
+                System.out.println(rs.getDouble("precio_original"));
                 return new Boleto(
                     rs.getInt("boleto_id"),
                     rs.getString("num_serie"),
@@ -246,6 +247,7 @@ public int obtenerVendedorBoleto(int boletoId) throws SQLException {
                 boleto.setFila(rs.getString("fila"));
                 boleto.setAsiento(rs.getString("asiento"));
                 boleto.setNumSerie(rs.getString("num_serie"));
+                boleto.setPrecioOriginal(rs.getDouble("precio_original"));
 
                 // Mapear datos del evento
                 Evento evento = new Evento();
