@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Interfaces.AgregarSaldo;
 
 import Daos.personaDAO;
@@ -14,12 +11,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import java.sql.SQLException;
 
 /**
  *
- * @author PC Gamer
+ * @author Ariel Eduardo Borbon Izaguirre 252116
+ * Alberto Jimenez Garcia 252595
  */
 
 public class ConfirmarSaldoFrame extends JFrame {
@@ -45,14 +42,14 @@ public class ConfirmarSaldoFrame extends JFrame {
     }
     
     private void initComponentes() {
-        // Mensaje de confirmación
+
         lblMensaje = new JLabel(
             "<html>Se agregará $" + cantidad + " a tu saldo.<br>" +
             "Esta cantidad será debitada de tu tarjeta.</html>", 
             SwingConstants.CENTER);
         add(lblMensaje, BorderLayout.CENTER);
         
-        // Botón Continuar
+
         btnContinuar = new JButton("Continuar");
         btnContinuar.addActionListener(this::accionContinuar);
         JPanel panelBoton = new JPanel();
@@ -62,8 +59,7 @@ public class ConfirmarSaldoFrame extends JFrame {
     
     private void accionContinuar(ActionEvent e) {
         try {
-            // Se actualiza el saldo sumando la cantidad ingresada.
-            // Se asume que personaDAO.actualizarSaldo suma el monto al saldo existente.
+            
             personaDAO dao = new personaDAO();
             dao.actualizarSaldo(personaChida.getPersonaId(), cantidad);
             
@@ -81,7 +77,6 @@ public class ConfirmarSaldoFrame extends JFrame {
         }
     }
     
-    // Método main para pruebas
+
  
 }
-

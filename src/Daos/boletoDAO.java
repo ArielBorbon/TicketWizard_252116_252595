@@ -109,7 +109,6 @@ public Boleto obtenerPorId(int boletoId) throws SQLException {
         pstmt.setInt(1, boletoId);
         try (ResultSet rs = pstmt.executeQuery()) {
             if (rs.next()) {
-                System.out.println(rs.getDouble("precio_original"));
                 return new Boleto(
                     rs.getInt("boleto_id"),
                     rs.getString("num_serie"),
@@ -123,7 +122,7 @@ public Boleto obtenerPorId(int boletoId) throws SQLException {
             }
         }
     }
-    return null; // Si no se encuentra el boleto
+    return null; 
 }
 
 public boolean estaEnReventa(int boletoId) throws SQLException {
@@ -134,7 +133,7 @@ public boolean estaEnReventa(int boletoId) throws SQLException {
         pstmt.setInt(1, boletoId);
         try (ResultSet rs = pstmt.executeQuery()) {
             if (rs.next()) {
-                return rs.getInt(1) > 0;  // Si el conteo es mayor que 0, significa que el boleto está en reventa
+                return rs.getInt(1) > 0; 
             }
         }
     }
@@ -143,12 +142,13 @@ public boolean estaEnReventa(int boletoId) throws SQLException {
 
 
 public void actualizarPropietario(int boletoId, int nuevoPropietarioId) throws SQLException {
-    String sql = "UPDATE Boletos SET persona_id = ? WHERE boleto_id = ?";
+    String sql = "UPDATE Boletos SET persona_id = ? WHERE boleto_id = ?"; 
+    
     try (Connection conn = ConexionBD.crearConexion();
          PreparedStatement pstmt = conn.prepareStatement(sql)) {
         
-        pstmt.setInt(1, nuevoPropietarioId);
-        pstmt.setInt(2, boletoId);
+        pstmt.setInt(1, nuevoPropietarioId); 
+        pstmt.setInt(2, boletoId);           
         pstmt.executeUpdate();
     }
 }
@@ -173,19 +173,19 @@ public boolean actualizarPropietarioBOOL(int boletoId, int compradorId) throws S
         stmt.setInt(2, boletoId);
 
         int filasAfectadas = stmt.executeUpdate();
-        return filasAfectadas > 0; // Retorna true si al menos una fila fue actualizada
+        return filasAfectadas > 0; 
     }
 }
 
 
-//boletoDAO.actualizarEstado(boletoChido.getBoletoId(), "vendido");
+
 public boolean actualizarEstado(int boletoId, String nuevoEstado) throws SQLException {
     String sql = "UPDATE Boletos SET estado = ? WHERE boleto_id = ?";
     
     try (Connection conn = ConexionBD.crearConexion();
          PreparedStatement pstmt = conn.prepareStatement(sql)) {
         
-        pstmt.setString(1, nuevoEstado); // Ej: "vendido", "reservado", "disponible"
+        pstmt.setString(1, nuevoEstado); 
         pstmt.setInt(2, boletoId);
         
         int filasAfectadas = pstmt.executeUpdate();
@@ -221,12 +221,12 @@ public List<Boleto> obtenerBoletosPorEvento(int eventoId, int usuarioId) throws 
         "LEFT JOIN Transacciones t ON tb.transaccion_id = t.transaccion_id " +
         "WHERE b.evento_id = ? " +
         "AND (" +
-            "b.estado = 'disponible' " + // Boletos disponibles para todos
+            "b.estado = 'disponible' " + 
             "OR (" +
-                "b.estado = 'reservado' " + // Boletos reservados
-                "AND t.persona_id = ? " + // Solo si son reservados por el usuario actual
-                "AND t.estado = 'pendiente' " + // Y la transacción está pendiente
-                "AND t.fecha_expiracion > NOW()" + // Y no han expirado
+                "b.estado = 'reservado' " +
+                "AND t.persona_id = ? " +
+                "AND t.estado = 'pendiente' " + 
+                "AND t.fecha_expiracion > NOW()" + 
             ")" +
         ")";
     
@@ -236,7 +236,7 @@ public List<Boleto> obtenerBoletosPorEvento(int eventoId, int usuarioId) throws 
          PreparedStatement pstmt = conn.prepareStatement(sql)) {
         
         pstmt.setInt(1, eventoId);
-        pstmt.setInt(2, usuarioId); // Usuario actual
+        pstmt.setInt(2, usuarioId);  
         
         try (ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
@@ -280,20 +280,20 @@ public int obtenerVendedorBoleto(int boletoId) throws SQLException {
         try (ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
                 Boleto boleto = new Boleto();
-                // Mapear datos del boleto
+             
                 boleto.setBoletoId(rs.getInt("boleto_id"));
                 boleto.setFila(rs.getString("fila"));
                 boleto.setAsiento(rs.getString("asiento"));
                 boleto.setNumSerie(rs.getString("num_serie"));
                 boleto.setPrecioOriginal(rs.getDouble("precio_original"));
 
-                // Mapear datos del evento
+              
                 Evento evento = new Evento();
                 evento.setNombre(rs.getString("nombre"));
                 evento.setFecha(rs.getTimestamp("fecha").toLocalDateTime());
                 evento.setRecinto(rs.getString("recinto"));
                 
-                boleto.setEvento(evento); // Asignar el evento al boleto
+                boleto.setEvento(evento);
                 
                 boletos.add(boleto);
             }
@@ -309,8 +309,8 @@ public void marcarComoEnReventa(int boletoId, double precioReventa, int vendedor
          PreparedStatement pstmt = conn.prepareStatement(sql)) {
         
         pstmt.setInt(1, boletoId);
-        pstmt.setDouble(2, precioReventa);  // El precio de reventa
-        pstmt.setInt(3, vendedorId);        // El id del vendedor
+        pstmt.setDouble(2, precioReventa);  
+        pstmt.setInt(3, vendedorId);       
         pstmt.executeUpdate();
     }
 }
@@ -318,7 +318,7 @@ public void marcarComoEnReventa(int boletoId, double precioReventa, int vendedor
 
 
 public void marcarComoEnReventa(int boletoId) throws SQLException {
-    // Primero, obtener el precio de reventa y el vendedor
+
     String sql = "SELECT precio_reventa, persona_id_vendedor FROM Reventas WHERE boleto_id = ?";
     double precioReventa = 0.0;
     int vendedorId = 0;
@@ -335,7 +335,7 @@ public void marcarComoEnReventa(int boletoId) throws SQLException {
         }
     }
 
-    // Ahora insertar en Reventas con los datos obtenidos
+   
     String insertSql = "INSERT INTO Reventas (boleto_id, precio_reventa, estado, persona_id_vendedor) " +
                        "VALUES (?, ?, 'activo', ?)";
     try (Connection conn = ConexionBD.crearConexion();
@@ -355,7 +355,7 @@ public boolean reservarBoleto(int boletoId, int transaccionId) throws SQLExcepti
     try (Connection conn = ConexionBD.crearConexion();
          PreparedStatement pstmt = conn.prepareStatement(sql)) {
          
-        pstmt.setInt(1, transaccionId); // Usar transaccionId como "dueño temporal"
+        pstmt.setInt(1, transaccionId); 
         pstmt.setInt(2, boletoId);
         
         return pstmt.executeUpdate() > 0;

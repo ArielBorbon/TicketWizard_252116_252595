@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 /**
@@ -71,17 +70,16 @@ public List<Evento> listarEventos() throws SQLException {
             evento.setEventoId(rs.getInt("evento_id"));
             evento.setNombre(rs.getString("nombre"));
             
-            // Obtener el Timestamp de la base de datos
+
             Timestamp timestamp = rs.getTimestamp("fecha");
             
-            // Convertir Timestamp a LocalDate
+
             if (timestamp != null) {
                 LocalDate localDate = timestamp.toLocalDateTime().toLocalDate();
-                evento.setFecha(timestamp.toLocalDateTime());  // Asignar el LocalDate al setter
+                evento.setFecha(timestamp.toLocalDateTime());
             }
             
             evento.setRecinto(rs.getString("recinto"));
-            // ... otros campos
             evento.setCiudad("ciudad");
             evento.setEstado("estado");
             evento.setDescripcion("descripcion");

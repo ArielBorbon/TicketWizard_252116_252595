@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Control;
 
 import Utileria.ConexionBD;
@@ -11,7 +8,8 @@ import java.sql.*;
 
 /**
  *
- * @author PC Gamer
+ * @author Ariel Eduardo Borbon Izaguirre 252116
+ * Alberto Jimenez Garcia 252595
  */
 public class ControlReservas {
     public static void iniciarLiberacionAutomatica() {
@@ -35,6 +33,6 @@ public class ControlReservas {
                     e.printStackTrace();
                 }
             }
-        }, 0, 60_000); // Ejecutar cada minuto
+        }, 0, 60_000);
     }
 }

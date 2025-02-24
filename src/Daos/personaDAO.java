@@ -23,7 +23,7 @@ public class personaDAO {
             pstmt.setString(2, contrasena);
             
             try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.next(); // Retorna true si encuentra coincidencia
+                return rs.next(); 
             }
         }
     }
@@ -84,7 +84,7 @@ public void actualizarSaldo(int personaId, double monto) throws SQLException {
             }
         }
     }
-    return null; // Si no se encuentra la persona
+    return null; 
 }
 
                 public Persona obtenerPorUsuario(String personaUsuario) throws SQLException {
@@ -101,9 +101,8 @@ public void actualizarSaldo(int personaId, double monto) throws SQLException {
             }
         }
     }
-    return null; // Si no se encuentra la persona
+    return null; 
 }
         
     }
-
 

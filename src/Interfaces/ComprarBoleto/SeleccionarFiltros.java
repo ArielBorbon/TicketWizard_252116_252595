@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Interfaces.ComprarBoleto;
 
 import Entidades.Persona;
@@ -18,7 +15,8 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author PC Gamer
+ * @author Ariel Eduardo Borbon Izaguirre 252116
+ * Alberto Jimenez Garcia 252595
  */
 public class SeleccionarFiltros extends JFrame{
     private JDateChooser fechaFiltro;
@@ -30,9 +28,9 @@ public class SeleccionarFiltros extends JFrame{
         this.personachida = personachida;
         setTitle("Filtrar Eventos");
         setSize(300, 200);
-        setLayout(new GridLayout(3, 2, 5, 5)); // 3 filas, 2 columnas
-setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);                                           //   ***************************
-        // Componentes
+        setLayout(new GridLayout(3, 2, 5, 5)); 
+setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);                                        
+      
         JLabel labelFecha = new JLabel("Filtrar por Fecha:");
         fechaFiltro = new JDateChooser();
         
@@ -41,36 +39,36 @@ setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);                              
 
         botonContinuar = new JButton("Continuar");
 
-        // Acción del botón
+      
         botonContinuar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Obtener filtros
+                
                 Date fechaSeleccionada = fechaFiltro.getDate();
                 String nombre = nombreFiltro.getText();
 
-                // Formatear fecha si no es null
+              
                 String fechaString = "";
                 if (fechaSeleccionada != null) {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     fechaString = sdf.format(fechaSeleccionada);
                 }
 
-                // Abrir EventoGUI con los filtros
+              
                 new SeleccionarEventoFrame(nombre, fechaString, personachida).setVisible(true);
-                dispose(); // Cerrar ventana actual
+                dispose();
             }
         });
 
-        // Agregar componentes al frame
+
         add(labelFecha);
         add(fechaFiltro);
         add(labelNombre);
         add(nombreFiltro);
-        add(new JLabel()); // Espacio vacío
+        add(new JLabel()); 
         add(botonContinuar);
 
-        setLocationRelativeTo(null); // Centrar ventana
+        setLocationRelativeTo(null); 
         setVisible(true);
     }
 

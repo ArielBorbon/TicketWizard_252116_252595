@@ -17,10 +17,9 @@ import Utileria.ConexionBD;
  * Alberto Jimenez Garcia 252595
  */
 public class ReventaDAO {
-private final ConexionBD conexionBD = new ConexionBD();
+    private final ConexionBD conexionBD = new ConexionBD();
 
-    
-    public void publicarReventa(Reventa reventa) throws SQLException {
+    public void crearReventa(Reventa reventa) throws SQLException {
         String sql = "INSERT INTO Reventas (precio_reventa, fecha_limite, estado, boleto_id, persona_id_vendedor) "
                    + "VALUES (?, ?, ?, ?, ?)";
         
@@ -28,7 +27,7 @@ private final ConexionBD conexionBD = new ConexionBD();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setDouble(1, reventa.getPrecioReventa());
-            ps.setTimestamp(2, Timestamp.valueOf(reventa.getFechaLimite().atStartOfDay()));
+            ps.setTimestamp(2, Timestamp.valueOf(reventa.getFechaLimite()));
             ps.setString(3, reventa.getEstado());
             ps.setInt(4, reventa.getBoletoId());
             ps.setInt(5, reventa.getPersonaIdVendedor());
@@ -36,7 +35,6 @@ private final ConexionBD conexionBD = new ConexionBD();
             ps.executeUpdate();
         }
     }
-
 
     public List<Reventa> obtenerReventasActivas() throws SQLException {
         String sql = "SELECT * FROM Reventas WHERE estado = 'activo'";
@@ -53,39 +51,21 @@ private final ConexionBD conexionBD = new ConexionBD();
         return reventas;
     }
 
-    
     private Reventa mapearReventa(ResultSet rs) throws SQLException {
         Reventa reventa = new Reventa();
         reventa.setReventaId(rs.getInt("reventa_id"));
         reventa.setPrecioReventa(rs.getDouble("precio_reventa"));
-        reventa.setFechaLimite(rs.getTimestamp("fecha_limite").toLocalDateTime().toLocalDate());
+        reventa.setFechaLimite(rs.getTimestamp("fecha_limite").toLocalDateTime());
         reventa.setEstado(rs.getString("estado"));
         reventa.setBoletoId(rs.getInt("boleto_id"));
         reventa.setPersonaIdVendedor(rs.getInt("persona_id_vendedor"));
         return reventa;
     }
-    
-    
-    public void crearReventa(Reventa reventa) throws SQLException {
-    String sql = "INSERT INTO Reventas (precio_reventa, fecha_limite, estado, boleto_id, persona_id_vendedor) "
-               + "VALUES (?, ?, ?, ?, ?)";
-
-    try (Connection conn = conexionBD.crearConexion();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
-
-        ps.setDouble(1, reventa.getPrecioReventa());
-        ps.setTimestamp(2, Timestamp.valueOf(reventa.getFechaLimite().atStartOfDay()));
-        ps.setString(3, reventa.getEstado());
-        ps.setInt(4, reventa.getBoletoId());
-        ps.setInt(5, reventa.getPersonaIdVendedor());
-
-        ps.executeUpdate();
-    }
 }
 
+
     
     
     
     
     
-}

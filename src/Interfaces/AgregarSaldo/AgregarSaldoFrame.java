@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Interfaces.AgregarSaldo;
 
 import Control.ControlCompra;
@@ -13,7 +10,8 @@ import java.sql.*;
 
 /**
  *
- * @author PC Gamer
+ * @author Ariel Eduardo Borbon Izaguirre 252116
+ * Alberto Jimenez Garcia 252595
  */
 public class AgregarSaldoFrame extends JFrame {
     private Persona persona;
@@ -22,7 +20,7 @@ public class AgregarSaldoFrame extends JFrame {
     public AgregarSaldoFrame(Persona persona, int transaccionId) {
         this.persona = persona;
         this.transaccionId = transaccionId;
-        // ... (diseño de la interfaz para agregar saldo)
+      
         
         JButton btnCompletarCompra = new JButton("Completar Compra");
         btnCompletarCompra.addActionListener(e -> completarCompra());

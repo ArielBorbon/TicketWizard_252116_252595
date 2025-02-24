@@ -1,12 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Interfaces.ComprarBoleto;
 
 /**
  *
- * @author PC Gamer
+ * @author Ariel Eduardo Borbon Izaguirre 252116
+ * Alberto Jimenez Garcia 252595
  */
 import Control.ControlCompra;
 import Daos.boletoDAO;
@@ -16,7 +14,6 @@ import java.awt.*;
 import Entidades.Boleto;
 import Entidades.Evento;
 import Entidades.Persona;
-import Interfaces.AgregarSaldo.AgregarSaldoFrame;
 import Utileria.ConexionBD;
 import java.sql.SQLException;
 import java.util.Collections;
@@ -51,7 +48,6 @@ private void confirmarCompra() throws SQLException {
     boolean exito = control.comprarBoletosDirectos(personaChida.getPersonaId(), boletosIds);
 
     if (exito) {
-        // ==== SOLUCIÓN: Obtener saldo actualizado desde la BD ====
         boletoDAO bDAO = new boletoDAO();
         bDAO.actualizarEstado(boletoChido.getBoletoId(), "vendido");
         personaDAO pdao = new personaDAO();
@@ -64,18 +60,14 @@ private void confirmarCompra() throws SQLException {
             JOptionPane.INFORMATION_MESSAGE);
         this.dispose();
     } else {
-            // ==== Obtener ID de transacción pendiente ====
             int transaccionId = obtenerTransaccionPendiente(personaChida.getPersonaId(), boletoChido.getBoletoId());
             
-            // Mostrar opción para reintentar
             JOptionPane.showMessageDialog(null, 
                 "¿Transaccion Pendiente, Tienes 10 minutos para añadir fondos",
                 "Reserva Activa",
                 JOptionPane.WARNING_MESSAGE);
 
-        //    if (opcion == JOptionPane.YES_OPTION) {
-        //        new AgregarSaldoFrame(personaChida, transaccionId).setVisible(true); // Pasar transaccionId
-         //   }
+
             dispose();
         }
     } catch (SQLException ex) {

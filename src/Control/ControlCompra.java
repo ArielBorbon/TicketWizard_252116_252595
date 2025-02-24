@@ -11,16 +11,20 @@ import Entidades.Persona;
 import Entidades.Transaccion;
 import Utileria.ConexionBD;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.sql.Connection;
 import java.util.UUID;
-import javax.swing.JOptionPane;
 import java.sql.PreparedStatement;
 import java.util.Timer;
 import java.util.TimerTask;
+
+/**
+ *
+ * @author Ariel Eduardo Borbon Izaguirre 252116
+ * Alberto Jimenez Garcia 252595
+ */
+
 
 public class ControlCompra {
     private transaccionDAO transaccionDAO = new transaccionDAO();
@@ -40,13 +44,13 @@ public class ControlCompra {
                     e.printStackTrace();
                 }
             }
-        }, 0, 60_000); // Ejecutar cada 60 segundos
+        }, 0, 60_000);
     }
 
     
     
 
-// Corregir manejo de fechas y transacciones
+
 public boolean comprarBoletosDirectos(int compradorId, List<Integer> boletosIds) throws SQLException {
     Connection conn = null;
     try {
@@ -58,7 +62,7 @@ public boolean comprarBoletosDirectos(int compradorId, List<Integer> boletosIds)
         boolean esCompraDirecta = true;
         double comisionTotal = 0.0;
 
-        // Determinar tipo de transacción
+
         for (int boletoId : boletosIds) {
             if (boletoDAO.obtenerVendedorBoleto(boletoId) != 1) {
                 esCompraDirecta = false;
@@ -66,28 +70,28 @@ public boolean comprarBoletosDirectos(int compradorId, List<Integer> boletosIds)
             }
         }
 
-        // Configurar transacción base
+   
         Transaccion transaccion = new Transaccion();
         transaccion.setTipo(esCompraDirecta ? "compra_directa" : "compra_reventa");
         transaccion.setNumTransaccion(generarNumTransaccion());
-        transaccion.setFechaHora(LocalDateTime.now()); // Cambiado a LocalDateTime
+        transaccion.setFechaHora(LocalDateTime.now()); 
         transaccion.setMontoTotal(total);
         transaccion.setPersonaId(compradorId);
 
-        // Calcular comisión para reventas
+       
         if (!esCompraDirecta) {
             comisionTotal = total * 0.03;
             transaccion.setComision(comisionTotal);
         }
 
-        // Verificar saldo
+ 
 if (comprador.getSaldo() < (total + comisionTotal)) {
-    // Crear transacción pendiente
+
                 transaccion.setEstado("pendiente");
             transaccion.setFechaExpiracion(LocalDateTime.now().plusMinutes(10));
     int transaccionId = transaccionDAO.crearTransaccion(transaccion);
     
-    // Reservar cada boleto
+
     for (int boletoId : boletosIds) {
         if (!boletoDAO.reservarBoleto(boletoId, transaccionId)) {
             conn.rollback();
@@ -100,11 +104,10 @@ if (comprador.getSaldo() < (total + comisionTotal)) {
     return false;
 }
 
-        // ===== COMPRA EXITOSA =====
         transaccion.setEstado("completado");
         int transaccionId = transaccionDAO.crearTransaccion(transaccion);
 
-        // Procesar boletos
+
         for (int boletoId : boletosIds) {
             Boleto boleto = boletoDAO.obtenerPorId(boletoId);
             
@@ -113,13 +116,13 @@ if (comprador.getSaldo() < (total + comisionTotal)) {
                 throw new SQLException("Boleto " + boletoId + " ya vendido");
             }
 
-            // Transferir propiedad
+
             if (!boletoDAO.actualizarPropietarioBOOL(boletoId, compradorId)) {
                 conn.rollback();
                 return false;
             }
 
-            // Manejar reventas
+
             if (!esCompraDirecta) {
                 boletoDAO.marcarComoVendido(boletoId);
                 double pagoVendedor = boleto.getPrecioOriginal() - comisionTotal;
@@ -129,10 +132,10 @@ if (comprador.getSaldo() < (total + comisionTotal)) {
             transaccionBoletoDAO.vincularBoletoATransaccion(transaccionId, boletoId);
         }
 
-        // Actualizar saldos
+
         personaDAO.actualizarSaldo(compradorId, -(total + comisionTotal));
         if (!esCompraDirecta) {
-            personaDAO.actualizarSaldo(1, comisionTotal); // Comisión a la plataforma
+            personaDAO.actualizarSaldo(1, comisionTotal);
         }
 
         conn.commit();
@@ -170,7 +173,7 @@ private String generarNumTransaccion() {
     String sql = "UPDATE Boletos b " +
                 "JOIN Transacciones_boletos tb ON b.boleto_id = tb.boleto_id " +
                 "JOIN Transacciones t ON tb.transaccion_id = t.transaccion_id " +
-                "SET b.estado = 'disponible', b.persona_id = 1 " + // Asignar a la plataforma
+                "SET b.estado = 'disponible', b.persona_id = 1 " + 
                 "WHERE t.estado = 'pendiente' AND t.fecha_expiracion < NOW()";
     
     try (Connection conn = ConexionBD.crearConexion();
@@ -189,7 +192,7 @@ public boolean completarCompraPendiente(int transaccionId) throws SQLException {
         conn = ConexionBD.crearConexion();
         conn.setAutoCommit(false);
 
-        // Paso 1: Verificar validez de la transacción
+
         Transaccion transaccion = new transaccionDAO().obtenerPorId(transaccionId);
         if (transaccion == null || 
             !transaccion.getEstado().equals("pendiente") || 
@@ -197,7 +200,6 @@ public boolean completarCompraPendiente(int transaccionId) throws SQLException {
             return false;
         }
 
-        // Paso 2: Verificar saldo actualizado
         Persona comprador = new personaDAO().obtenerPorId(transaccion.getPersonaId());
         double totalAPagar = transaccion.getMontoTotal() + transaccion.getComision();
         
@@ -205,7 +207,6 @@ public boolean completarCompraPendiente(int transaccionId) throws SQLException {
             return false;
         }
 
-        // Paso 3: Validar estado de los boletos
         List<Integer> boletosIds = new TransaccionBoletoDAO().obtenerBoletosDeTransaccion(transaccionId);
         for (int boletoId : boletosIds) {
             Boleto boleto = new boletoDAO().obtenerPorId(boletoId);
@@ -215,21 +216,18 @@ public boolean completarCompraPendiente(int transaccionId) throws SQLException {
             }
         }
 
-        // Paso 4: Actualizar estados
         for (int boletoId : boletosIds) {
             new boletoDAO().actualizarEstadoYPropietario(boletoId, "vendido", comprador.getPersonaId());
         }
 
-        // Paso 5: Actualizar saldos
         new personaDAO().actualizarSaldo(comprador.getPersonaId(), -totalAPagar);
         
-        // Paso 6: Comisión para reventas
+        
         if (transaccion.getTipo().equals("compra_reventa")) {
             double comision = transaccion.getComision();
-            new personaDAO().actualizarSaldo(1, comision); // Plataforma
+            new personaDAO().actualizarSaldo(1, comision); 
         }
 
-        // Paso 7: Marcar transacción como completada
         new transaccionDAO().actualizarEstado(transaccionId, "completado");
 
         conn.commit();

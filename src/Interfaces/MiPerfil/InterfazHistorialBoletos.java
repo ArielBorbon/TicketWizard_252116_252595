@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Interfaces.MiPerfil;
 
 import Entidades.Persona;
@@ -30,20 +27,20 @@ public class InterfazHistorialBoletos extends JFrame {
     public InterfazHistorialBoletos(Persona personachila) {
         this.personaChida = personachila;
 
-        // Configuración del JFrame
+
         setTitle("Historial Boletos");
         setSize(630, 477);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
 
-        // Componentes de la interfaz
+
         JLabel TicketWizard = new JLabel("TicketWizard");
         JButton botonRegresar = new JButton("Regresar");
         JLabel texto1 = new JLabel("Registro historial de boletos");
         JLabel texto2 = new JLabel("Historial:");
 
-        // Configurar estilos
+
         TicketWizard.setFont(new Font("Racing Sans One", Font.BOLD, 40));
         TicketWizard.setForeground(Color.BLUE);
         TicketWizard.setBounds(20, 10, 600, 70);
@@ -59,12 +56,12 @@ public class InterfazHistorialBoletos extends JFrame {
         texto1.setBounds(20, 50, 600, 70);
         texto2.setBounds(20, 150, 600, 70);
 
-        // ComboBox con los boletos del usuario
+
         historialTransacciones = new JComboBox<>();
         historialTransacciones.setBounds(20, 210, 500, 30);
-        cargarBoletos();  // Llamamos al método para llenar el ComboBox con los boletos del usuario
+        cargarBoletos();
 
-        // Acción para regresar
+
         botonRegresar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,21 +69,18 @@ public class InterfazHistorialBoletos extends JFrame {
             }
         });
 
-        // Agregar componentes al JFrame
         add(TicketWizard);
         add(botonRegresar);
         add(texto1);
         add(texto2);
         add(historialTransacciones);
 
-        // Hacer visible la ventana
+
         setVisible(true);
     }
 
-    // Método para obtener y cargar los boletos del usuario en el JComboBox
     private void cargarBoletos() {
         try (Connection conexion = ConexionBD.crearConexion()) {  
-            // Consulta para obtener boletos y el título de la obra correspondiente
             String consulta = """
                 SELECT B.num_serie, B.fila, B.asiento, E.nombre
                 FROM Boletos B
@@ -95,7 +89,7 @@ public class InterfazHistorialBoletos extends JFrame {
             """;
 
             PreparedStatement statement = conexion.prepareStatement(consulta);
-            statement.setInt(1, personaChida.getPersonaId()); // Obtener el ID del usuario
+            statement.setInt(1, personaChida.getPersonaId()); 
             ResultSet resultado = statement.executeQuery();
 
             ArrayList<String> boletos = new ArrayList<>();
@@ -105,11 +99,9 @@ public class InterfazHistorialBoletos extends JFrame {
                 String fila = resultado.getString("fila");
                 String asiento = resultado.getString("asiento");
                 
-                // Formato con el título de la obra
                 boletos.add("Obra: " + tituloObra + " | Serie: " + numSerie + " | Fila: " + fila + " | Asiento: " + asiento);
             }
 
-            // Si no hay boletos, mostramos un mensaje
             if (boletos.isEmpty()) {
                 historialTransacciones.addItem("No tienes boletos.");
             } else {
@@ -125,5 +117,3 @@ public class InterfazHistorialBoletos extends JFrame {
         }
     }
 }
-
-

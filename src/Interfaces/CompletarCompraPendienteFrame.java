@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Interfaces;
 
 import Control.ControlCompra;
@@ -18,7 +15,8 @@ import java.sql.*;
 
 /**
  *
- * @author PC Gamer
+ * @author Ariel Eduardo Borbon Izaguirre 252116
+ * Alberto Jimenez Garcia 252595
  */
 public class CompletarCompraPendienteFrame extends JFrame {
     private JComboBox<Transaccion> comboTransacciones;
@@ -59,7 +57,7 @@ public class CompletarCompraPendienteFrame extends JFrame {
                     boolean exito = new ControlCompra().completarCompraPendiente(seleccionada.getTransaccionId());
                     
                     if (exito) {
-                        JOptionPane.showMessageDialog(this, "¡Compra completada!");
+                        JOptionPane.showMessageDialog(this, "Compra completada!");
                         dispose();
                     } else {
                         JOptionPane.showMessageDialog(this, "No se pudo completar. La reserva pudo haber expirado.");
@@ -69,7 +67,6 @@ public class CompletarCompraPendienteFrame extends JFrame {
                 }
             }
         });
-        
-        // ... (agregar componentes al layout)
+
     }
 }

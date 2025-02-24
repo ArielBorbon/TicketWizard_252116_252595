@@ -1,12 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Entidades;
 
 /**
  *
- * @author PC Gamer
+ * @author Ariel Eduardo Borbon Izaguirre 252116
+ * Alberto Jimenez Garcia 252595
  */
 public class PersonasTransacciones {
 
@@ -14,14 +12,20 @@ public class PersonasTransacciones {
     private int compradorId;
     private int vendedorId;
 
-    // Constructor
+    public PersonasTransacciones() {
+    }
+
+    
+    
+    
+  
     public PersonasTransacciones(int transaccionId, int compradorId, int vendedorId) {
         this.transaccionId = transaccionId;
         this.compradorId = compradorId;
         this.vendedorId = vendedorId;
     }
 
-    // Getters y Setters
+
     public int getTransaccionId() {
         return transaccionId;
     }
@@ -55,4 +59,3 @@ public class PersonasTransacciones {
                 '}';
     }
 }
-

@@ -1,12 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Interfaces.AgregarSaldo;
 
 /**
  *
- * @author PC Gamer
+ * @author Ariel Eduardo Borbon Izaguirre 252116
+ * Alberto Jimenez Garcia 252595
  */
 import Entidades.Persona;
 import javax.swing.*;
@@ -55,4 +53,3 @@ public class CantidadFondosFrame extends JFrame {
         add(btnContinuar);
     }
 }
-

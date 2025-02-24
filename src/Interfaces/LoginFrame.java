@@ -1,12 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Interfaces;
 
 /**
  *
- * @author PC Gamer
+ * @author Ariel Eduardo Borbon Izaguirre 252116
+ * Alberto Jimenez Garcia 252595
  */
 import Control.ControlReservas;
 import Utileria.ConexionBD;
@@ -44,14 +42,14 @@ public class LoginFrame extends JFrame {
         JPanel panel = new JPanel(new GridLayout(3, 2, 5, 5));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Componentes de la interfaz
+ 
         JLabel lblUsuario = new JLabel("Usuario:");
         JLabel lblContrasena = new JLabel("Contraseña:");
         txtUsuario = new JTextField();
         txtContrasena = new JPasswordField();
         JButton btnLogin = new JButton("Iniciar Sesión");
 
-        // Acción del botón
+
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -59,12 +57,12 @@ public class LoginFrame extends JFrame {
             }
         });
 
-        // Agregar componentes al panel
+
         panel.add(lblUsuario);
         panel.add(txtUsuario);
         panel.add(lblContrasena);
         panel.add(txtContrasena);
-        panel.add(new JLabel()); // Espacio vacío
+        panel.add(new JLabel()); 
         panel.add(btnLogin);
 
         add(panel);
@@ -77,8 +75,7 @@ public class LoginFrame extends JFrame {
         try {
             if (personaDAO.autenticar(usuario, contrasena)) {
                 JOptionPane.showMessageDialog(this, "¡Inicio de sesión exitoso!");
-                /////pendiente interfaz 1 parametro el usuario para que se lo lleve
-                // new MenuPrincipal(usuario).setVisible(true);
+
                 
                 Persona personaChida = personaDAO.obtenerPorUsuario(usuario);
                 
@@ -114,7 +111,7 @@ public class LoginFrame extends JFrame {
                 } catch (SQLException ex) {
                     Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                ControlReservas.iniciarLiberacionAutomatica(); // <-- Iniciar aquí
+                ControlReservas.iniciarLiberacionAutomatica(); 
                 new LoginFrame().setVisible(true);
                 
                 

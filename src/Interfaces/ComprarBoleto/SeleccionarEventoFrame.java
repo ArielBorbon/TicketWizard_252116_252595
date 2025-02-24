@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Interfaces.ComprarBoleto;
 
 import Daos.boletoDAO;
@@ -10,66 +7,59 @@ import Entidades.Boleto;
 import Entidades.Evento;
 import Entidades.Persona;
 import Utileria.ConexionBD;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import static javax.swing.BoxLayout.Y_AXIS;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
- * @author PC Gamer
+ * @author Ariel Eduardo Borbon Izaguirre 252116
+ * Alberto Jimenez Garcia 252595
  */
 public class SeleccionarEventoFrame extends JFrame {
      private JComboBox<String> comboEventos;
-    private eventoDAO eventoDAO; // Declarar como variable de instancia
+    private eventoDAO eventoDAO;
     private JButton botonContinuar;
     private String nombreFiltro;
     private String fechaFiltro;
     private Persona personachida;
-    private List<Evento> listaEventos; // Lista para almacenar los eventos recuperados
+    private List<Evento> listaEventos; 
 
     public SeleccionarEventoFrame(String nombreFiltro, String fechaFiltro, Persona personachida) {
         this.personachida = personachida;
         this.nombreFiltro = nombreFiltro;
         this.fechaFiltro = fechaFiltro;
-   setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);                                                               ////////////////////
+   setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);                                                               
         setTitle("Seleccionar Evento");
         setSize(400, 200);
-        setLocationRelativeTo(null); // Centrar la ventana
+        setLocationRelativeTo(null); 
 
-        eventoDAO = new eventoDAO(); // Instanciar el DAO
+        eventoDAO = new eventoDAO();
         comboEventos = new JComboBox<>();
         botonContinuar = new JButton("Continuar");
-        listaEventos = new ArrayList<>(); // Inicializamos la lista antes de cargar eventos
+        listaEventos = new ArrayList<>();
         cargarEventosEnComboBox();
 
-        // Establecer layout en vertical
+
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
-        // Agregar espacio entre los componentes
-    //    add(Box.createVerticalStrut(20)); // Espacio arriba
+
         add(comboEventos);
-        add(Box.createVerticalStrut(10)); // Espacio entre el ComboBox y el Botón
+        add(Box.createVerticalStrut(10));
         add(botonContinuar);
-        add(Box.createVerticalStrut(20)); // Espacio abajo
+        add(Box.createVerticalStrut(20));
 
         setVisible(true);
         
@@ -83,10 +73,9 @@ botonContinuar.addActionListener(new ActionListener() {
         if (selectedIndex != -1) {
             Evento eventoSeleccionado = listaEventos.get(selectedIndex);
             boletoDAO boletoDao = new boletoDAO();
-            List<Boleto> boletosChidos = new ArrayList<>(); // Inicializar lista vacía por defecto
+            List<Boleto> boletosChidos = new ArrayList<>(); 
 
             try {
-                // ==== SOLUCIÓN: Eliminar la llamada duplicada ====
                 boletosChidos = boletoDao.obtenerBoletosPorEvento(eventoSeleccionado.getEventoId(), personachida.getPersonaId());
 
                 if (boletosChidos.isEmpty()) {
@@ -97,7 +86,6 @@ botonContinuar.addActionListener(new ActionListener() {
                 }
 
             } catch (SQLException ex) {
-                // ==== SOLUCIÓN: Notificar al usuario y evitar NullPointer ====
                 JOptionPane.showMessageDialog(null, 
                     "Error al consultar los boletos. Intente nuevamente.", 
                     "Error de conexión", 
@@ -121,10 +109,10 @@ botonContinuar.addActionListener(new ActionListener() {
 
     private void cargarEventosEnComboBox() {
     try {
-        listaEventos = eventoDAO.listarEventosConFiltro(nombreFiltro, fechaFiltro); // Llenar la lista
+        listaEventos = eventoDAO.listarEventosConFiltro(nombreFiltro, fechaFiltro); 
         comboEventos.removeAllItems();
 
-        for (Evento evento : listaEventos) { // Iterar sobre la lista llena
+        for (Evento evento : listaEventos) { 
             comboEventos.addItem(evento.getNombre() + "      " + evento.getFecha());
         }
     } catch (SQLException e) {
@@ -138,11 +126,7 @@ botonContinuar.addActionListener(new ActionListener() {
     }
     
     
-        private void cargarEventos(JComboBox<String> comboEventos) {
-        // Conexión a la base de datos
-        String url = "jdbc:mysql://localhost:3306/tu_base_de_datos";  // Asegúrate de usar la URL correcta de tu base de datos
-        String usuario = "tu_usuario";
-        String contraseña = "tu_contraseña";
+        private void cargarEventos(JComboBox<String> comboEventos) {   
 
 StringBuilder sql = new StringBuilder("SELECT * FROM Eventos WHERE 1=1");
 if (!fechaFiltro.isEmpty()) {
@@ -154,29 +138,29 @@ if (!nombreFiltro.isEmpty()) {
 
         
         
-                try (Connection conn = ConexionBD.crearConexion();  // Usamos la conexión desde ConexionBD
+                try (Connection conn = ConexionBD.crearConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
 
-            int index = 1; // Índice para el PreparedStatement
-            // Establecer parámetros de fecha si es necesario
+            int index = 1;
+           
            if (!fechaFiltro.isEmpty()) {
     LocalDate fecha = LocalDate.parse(fechaFiltro);
-    pstmt.setDate(index++, java.sql.Date.valueOf(fecha)); // Pasar la fecha correctamente
+    pstmt.setDate(index++, java.sql.Date.valueOf(fecha));
 }
 
            
-                    // Establecer parámetros de nombre si es necesario
+                   
         if (nombreFiltro != null && !nombreFiltro.trim().isEmpty()) {
             pstmt.setString(index++, "%" + nombreFiltro + "%");
         }
         
         
-            // Ejecutar la consulta
+       
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    // Obtener los eventos de la base de datos
+                  
                     String nombreEvento = rs.getString("nombre");
-                    comboEventos.addItem(nombreEvento); // Añadir cada evento al JComboBox
+                    comboEventos.addItem(nombreEvento);
                 }
             }
 
@@ -198,4 +182,3 @@ if (!nombreFiltro.isEmpty()) {
     
     
     
-

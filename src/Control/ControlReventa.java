@@ -1,22 +1,25 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Control;
 
 import Daos.ReventaDAO;
 import Daos.boletoDAO;
+import Daos.personaDAO;
+import Daos.transaccionDAO;
 import Entidades.Boleto;
 import Entidades.Reventa;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import Entidades.Transaccion;
+import Utileria.ConexionBD;
 import java.util.Date;
 import java.util.List;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.UUID;
+import java.sql.*;
 
 /**
  *
- * @author PC Gamer
+ * @author Ariel Eduardo Borbon Izaguirre 252116
+ * Alberto Jimenez Garcia 252595
  */
 
 public class ControlReventa {
@@ -31,26 +34,25 @@ public boolean publicarEnReventa(int vendedorId, List<Integer> boletosIds, doubl
                 throw new IllegalArgumentException("No eres dueño del boleto ID: " + boletoId);
             }
 
-            // Validar precio máximo (precio original + 3%)
+         
             double precioMaximo = boleto.getPrecioOriginal() * 1.03;
             if (precioReventa > precioMaximo) {
                 throw new IllegalArgumentException("El precio excede el 3% del original. Máximo permitido: " + precioMaximo);
             }
 
-            // Crear la entrada en Reventas
+     
             Reventa reventa = new Reventa();
             reventa.setBoletoId(boletoId);
             reventa.setPrecioReventa(precioReventa);
-            LocalDate localDateFechaLimite = fechaLimite.toInstant()
-                                            .atZone(ZoneId.systemDefault())
-                                            .toLocalDate();
-            reventa.setFechaLimite(localDateFechaLimite);
+            LocalDateTime localDateTimeFechaLimite = LocalDateTime.now();
+                                            
+            reventa.setFechaLimite(localDateTimeFechaLimite);
             reventa.setEstado("activo");
             reventa.setPersonaIdVendedor(vendedorId);
 
             reventaDAO.crearReventa(reventa);
 
-            // Actualizar el estado del boleto para marcarlo en reventa
+        
             boletoDAO.actualizarPropietario(boletoId, 1);
 
         }
@@ -62,4 +64,68 @@ public boolean publicarEnReventa(int vendedorId, List<Integer> boletosIds, doubl
 }
 
 
+
+
+public boolean revenderABoletera(int vendedorId, int boletoId, double precioReventa, double comision) throws SQLException {
+    Connection conn = null;
+    try {
+        conn = ConexionBD.crearConexion();
+        conn.setAutoCommit(false);
+
+       
+        boletoDAO.actualizarPropietario(boletoId, 1);
+        boletoDAO.actualizarEstado(boletoId, "disponible");                                                       
+
+      
+        personaDAO pDAO = new personaDAO();
+        pDAO.actualizarSaldo(vendedorId, precioReventa);
+
+   
+        Transaccion transaccion = new Transaccion();
+        transaccion.setTipo("compra_reventa");
+        transaccion.setNumTransaccion(generarNumTransaccion());
+        transaccion.setMontoTotal(precioReventa);
+        transaccion.setComision(comision);
+        transaccion.setEstado("completado");
+        transaccion.setFechaHora(LocalDateTime.now());
+        transaccion.setPersonaId(1); 
+        
+
+        transaccionDAO tDAO = new transaccionDAO();
+        int transaccionId = tDAO.crearTransaccion(transaccion);
+
+
+        Reventa reventa = new Reventa();
+    reventa.setPrecioReventa(precioReventa);
+    reventa.setFechaLimite(LocalDateTime.now().plusDays(7)); 
+    reventa.setEstado("activo");
+    reventa.setBoletoId(boletoId);
+    reventa.setPersonaIdVendedor(1); 
+    
+    ReventaDAO rDAO = new ReventaDAO();
+    rDAO.crearReventa(reventa);
+
+        conn.commit();
+        return true;
+    } catch (SQLException e) {
+        if (conn != null) conn.rollback();
+        throw e;
+    } finally {
+        if (conn != null) conn.close();
+    }
 }
+
+    private String generarNumTransaccion() {
+        return "REV-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    }
+}
+
+
+
+
+
+
+
+
+
+

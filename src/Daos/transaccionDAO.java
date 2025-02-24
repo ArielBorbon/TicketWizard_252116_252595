@@ -4,9 +4,6 @@ package Daos;
 import Entidades.Transaccion;
 import Utileria.ConexionBD;
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -63,8 +60,7 @@ private final ConexionBD conexionBD = new ConexionBD();
     
     
 public int crearTransaccion(Transaccion transaccion) throws SQLException {
-    String sql = "INSERT INTO Transacciones (num_transaccion, tipo, monto_total, comision, estado, fecha_expiracion, persona_id) "
-               + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+    String sql = "INSERT INTO Transacciones (num_transaccion, tipo, monto_total, comision, estado, fecha_expiracion, fecha_hora, persona_id) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     
     try (Connection conn = ConexionBD.crearConexion();
          PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -81,9 +77,9 @@ public int crearTransaccion(Transaccion transaccion) throws SQLException {
         } else {
             pstmt.setNull(6, Types.TIMESTAMP); 
         }
+        pstmt.setTimestamp(7, Timestamp.valueOf(transaccion.getFechaHora()));
         
-        
-        pstmt.setInt(7, transaccion.getPersonaId());
+        pstmt.setInt(8, transaccion.getPersonaId());
         
         
         
@@ -109,7 +105,7 @@ public int crearTransaccion(Transaccion transaccion) throws SQLException {
         ResultSet rs = pstmt.executeQuery();
         
         if (rs.next() && rs.getInt(1) > 0) {
-            // Procesar pago y actualizar a "completado"
+           
             return true;
         } else {
             JOptionPane.showMessageDialog(null, "La reserva ha expirado.");
@@ -134,7 +130,7 @@ public int crearTransaccion(Transaccion transaccion) throws SQLException {
                 transaccion.setTransaccionId(rs.getInt("transaccion_id"));
                 transaccion.setNumTransaccion(rs.getString("num_transaccion"));
                 
-                // Convertir Timestamp a LocalDateTime
+            
                 Timestamp timestamp = rs.getTimestamp("fecha_hora");
                 transaccion.setFechaHora(timestamp.toLocalDateTime());
                 
@@ -143,7 +139,7 @@ public int crearTransaccion(Transaccion transaccion) throws SQLException {
                 transaccion.setComision(rs.getDouble("comision"));
                 transaccion.setEstado(rs.getString("estado"));
                 
-                // Fecha de expiración (puede ser null)
+               
                 Timestamp expiracion = rs.getTimestamp("fecha_expiracion");
                 if (expiracion != null) {
                     transaccion.setFechaExpiracion(expiracion.toLocalDateTime());
@@ -154,7 +150,7 @@ public int crearTransaccion(Transaccion transaccion) throws SQLException {
             }
         }
     }
-    return null; // Si no se encuentra la transacción
+    return null; 
 }
     public boolean actualizarEstado(int transaccionId, String nuevoEstado) throws SQLException {
     String sql = "UPDATE Transacciones SET estado = ? WHERE transaccion_id = ?";
@@ -166,7 +162,7 @@ public int crearTransaccion(Transaccion transaccion) throws SQLException {
         pstmt.setInt(2, transaccionId);
         
         int filasAfectadas = pstmt.executeUpdate();
-        return filasAfectadas > 0; // True si se actualizó al menos una fila
+        return filasAfectadas > 0; 
     }
 }
     
@@ -185,7 +181,7 @@ public int crearTransaccion(Transaccion transaccion) throws SQLException {
             }
         }
     }
-    return ids; // Lista vacía si no hay boletos
+    return ids;
 }
     
     
@@ -203,7 +199,7 @@ public int crearTransaccion(Transaccion transaccion) throws SQLException {
         
         try (ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
-                // Usar el método obtenerPorId mapeado previamente
+               
                 resultados.add(mapearTransaccion(rs)); 
             }
         }

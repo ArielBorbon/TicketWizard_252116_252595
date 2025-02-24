@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Interfaces.ComprarBoleto;
 
 import Interfaces.ComprarBoleto.ConfirmarCompraFrame;
@@ -18,12 +15,11 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import java.sql.SQLException;
 
 /**
  *
- * @author PC Gamer
+ * @author Ariel Eduardo Borbon Izaguirre 252116
+ * Alberto Jimenez Garcia 252595
  */
 public class SeleccionarBoletosFrame extends JFrame {
     
@@ -32,7 +28,7 @@ public class SeleccionarBoletosFrame extends JFrame {
     private JComboBox<String> comboBoletos;
     private JButton btnContinuar;
     private boletoDAO boletoDAO;
-    private List<Boleto> boletosChidos; // Lista de boletos disponibles para el evento
+    private List<Boleto> boletosChidos; 
     private List<Boleto> boletos;
     public SeleccionarBoletosFrame(Evento eventoChido, List<Boleto> boletosChidos, Persona personachida) {
         
@@ -55,7 +51,7 @@ public class SeleccionarBoletosFrame extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // Layout vertical usando BoxLayout
+
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         JLabel lblTitulo = new JLabel("Seleccione un boleto:");
@@ -80,7 +76,7 @@ public class SeleccionarBoletosFrame extends JFrame {
 
 private void cargarBoletos() {
     comboBoletos.removeAllItems();
-    if (boletosChidos != null && !boletosChidos.isEmpty()) { // Usar la lista proporcionada
+    if (boletosChidos != null && !boletosChidos.isEmpty()) { 
         for (Boleto boleto : boletosChidos) {
             comboBoletos.addItem("Asiento: " + boleto.getAsiento() + " - Fila: " + boleto.getFila() + " -  Precio: " + boleto.getPrecioOriginal());
         }
@@ -93,11 +89,11 @@ private void cargarBoletos() {
     private void continuarAction() {
     int indiceSeleccionado = comboBoletos.getSelectedIndex();
     if (indiceSeleccionado != -1 && boletosChidos != null && !boletosChidos.isEmpty()) {
-        Boleto boletoSeleccionado = boletosChidos.get(indiceSeleccionado); // <- Usar boletosChidos
+        Boleto boletoSeleccionado = boletosChidos.get(indiceSeleccionado); 
         
-        // Abrir nueva ventana de confirmación
+   
         new ConfirmarCompraFrame(eventoChido, personaChida, boletoSeleccionado).setVisible(true);
-        this.dispose(); // Cerrar ventana actual
+        this.dispose(); 
         
     } else {
         JOptionPane.showMessageDialog(this, 

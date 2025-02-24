@@ -16,7 +16,7 @@ public class Boleto {
     private int eventoId;
     private int personaId;
     private Evento evento;
-    public String estado;// Objeto Evento completo (para la lógica)
+    public String estado;
 
     public Boleto() {
     }
