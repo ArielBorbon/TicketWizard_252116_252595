@@ -1,0 +1,4 @@
+Decidimos Hacer esta entrega de esta manera eliminando todo lo de la branch para dejar solamente un rar con el proyecto debido a que hace unos minutos
+nos dimos cuenta que la entrega era en Maven. y hemos estado desarrollandolo desde un inicio con Ant. Entonces ya para entregarlo movimos todo rapido
+a un proyecto Maven para hacer la entrega, igualmente se pueden ver todos los commits realizados y avances en las demas branches
+Gracias
