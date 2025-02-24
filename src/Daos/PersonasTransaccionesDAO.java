@@ -17,7 +17,14 @@ public class PersonasTransaccionesDAO {
     }
 
     
-    
+    /**
+ * Inserta un nuevo registro en la tabla Personas_transacciones.
+ *
+ * @param pt El objeto PersonasTransacciones que contiene la información a insertar.
+ * @return true si la inserción fue exitosa, false en caso contrario.
+ * @throws SQLException Si ocurre un error al acceder a la base de datos.
+ * @throws IllegalArgumentException Si los IDs de transacción, comprador o vendedor no son válidos.
+ */
     
     public boolean insertar(PersonasTransacciones pt) throws SQLException {
         String sql = "INSERT INTO Personas_transacciones (transaccion_id, comprador_id, vendedor_id) VALUES (?, ?, ?)";
@@ -42,6 +49,18 @@ public class PersonasTransaccionesDAO {
             throw e;
         }
     }
+    
+    
+    
+    
+    
+    /**
+ * Obtiene un registro de PersonasTransacciones a partir del ID de la transacción.
+ *
+ * @param transaccionId El ID de la transacción para la cual se desea obtener el registro.
+ * @return Un objeto PersonasTransacciones que contiene la información de la transacción, o null si no se encuentra.
+ * @throws SQLException Si ocurre un error al acceder a la base de datos.
+ */
 
     public PersonasTransacciones obtenerPorTransaccion(int transaccionId) throws SQLException {
         String sql = "SELECT * FROM Personas_transacciones WHERE transaccion_id = ?";

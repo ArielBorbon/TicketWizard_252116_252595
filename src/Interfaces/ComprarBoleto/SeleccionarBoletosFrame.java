@@ -74,6 +74,12 @@ public class SeleccionarBoletosFrame extends JFrame {
         setVisible(true);
     }
 
+    
+    
+    /**
+ * Carga los boletos disponibles en el combo box.
+ * Si hay boletos disponibles, se añaden al combo box; de lo contrario, se muestra un mensaje de advertencia.
+ */
 private void cargarBoletos() {
     comboBoletos.removeAllItems();
     if (boletosChidos != null && !boletosChidos.isEmpty()) { 

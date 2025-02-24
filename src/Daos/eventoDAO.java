@@ -22,6 +22,13 @@ public class eventoDAO {
 private final ConexionBD conexionBD = new ConexionBD();
 
 
+
+/*
+ * Obtiene una lista de eventos futuros (con fecha posterior a la actual).
+ * @return Una lista de objetos Evento que están programados para el futuro.
+ */
+
+
     public  List<Evento> obtenerEventosFuturos() throws SQLException {
         String sql = "SELECT * FROM Eventos WHERE fecha > NOW()";
         List<Evento> eventos = new ArrayList<>();
@@ -38,6 +45,14 @@ private final ConexionBD conexionBD = new ConexionBD();
     }
 
 
+    /*
+ * Mapea un ResultSet a un objeto de tipo Evento.
+ * @param rs El ResultSet que contiene los datos del evento.
+ * @return Un objeto Evento con los datos mapeados.
+ */
+    
+    
+    
     private Evento mapearEvento(ResultSet rs) throws SQLException {
         Evento evento = new Evento();
         evento.setEventoId(rs.getInt("evento_id"));
@@ -55,7 +70,10 @@ private final ConexionBD conexionBD = new ConexionBD();
         return evento;
     }
     
-
+/*
+ * Obtiene una lista de todos los eventos registrados en la base de datos.
+ * @return Una lista de objetos Evento con todos los eventos disponibles.
+ */
 
 public List<Evento> listarEventos() throws SQLException {
     List<Evento> eventos = new ArrayList<>();
@@ -91,7 +109,12 @@ public List<Evento> listarEventos() throws SQLException {
     return eventos;
 }
 
-    
+    /*
+ * Obtiene una lista de eventos filtrados por nombre y/o fecha.
+ * @param nombre El nombre del evento (o parte de él) para filtrar (opcional).
+ * @param fecha La fecha específica para filtrar los eventos (opcional).
+ * @return Una lista de objetos Evento que coinciden con los filtros aplicados.
+ */
 
     public List<Evento> listarEventosConFiltro(String nombre, String fecha) throws SQLException {
     List<Evento> eventos = new ArrayList<>();

@@ -15,6 +15,15 @@ import java.util.List;
 public class TransaccionBoletoDAO {
     private final ConexionBD conexionBD = new ConexionBD();
 
+    
+    
+    /**
+ * Vincula un boleto a una transacción insertando un registro en la tabla Transacciones_boletos.
+ *
+ * @param transaccionId El ID de la transacción a la que se desea vincular el boleto.
+ * @param boletoId El ID del boleto que se desea vincular a la transacción.
+ * @throws SQLException Si ocurre un error al acceder a la base de datos.
+ */
 
     public void vincularBoletoATransaccion(int transaccionId, int boletoId) throws SQLException {
         String sql = "INSERT INTO Transacciones_boletos (transaccion_id, boleto_id) VALUES (?, ?)";
@@ -28,7 +37,14 @@ public class TransaccionBoletoDAO {
         }
     }
 
-
+/**
+ * Obtiene una lista de IDs de boletos asociados a una transacción específica.
+ *
+ * @param transaccionId El ID de la transacción de la cual se desean obtener los boletos.
+ * @return Una lista de IDs de boletos que están vinculados a la transacción especificada.
+ * @throws SQLException Si ocurre un error al acceder a la base de datos.
+ */
+    
     public List<Integer> obtenerBoletosDeTransaccion(int transaccionId) throws SQLException {
         String sql = "SELECT boleto_id FROM Transacciones_boletos WHERE transaccion_id = ?";
         List<Integer> boletos = new ArrayList<>();

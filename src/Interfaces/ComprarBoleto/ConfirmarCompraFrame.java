@@ -38,7 +38,12 @@ public class ConfirmarCompraFrame extends JFrame {
         initComponentes();
     }
     
-    
+    /**
+ * Confirma la compra de un boleto, actualizando el estado del boleto y el saldo del usuario.
+ * Si la compra es exitosa, se muestra un mensaje de éxito. Si hay una transacción pendiente, se notifica al usuario.
+ * 
+ * @throws SQLException Si ocurre un error al acceder a la base de datos.
+ */
     
 private void confirmarCompra() throws SQLException {
     try{
@@ -115,7 +120,14 @@ private void confirmarCompra() throws SQLException {
         add(btnConfirmar);
     }
     
-    
+    /**
+ * Obtiene el ID de una transacción pendiente asociada a un boleto específico para un usuario dado.
+ *
+ * @param personaId El ID de la persona que se está consultando.
+ * @param boletoId El ID del boleto para el cual se desea obtener la transacción pendiente.
+ * @return El ID de la transacción pendiente si existe, o -1 si no se encuentra ninguna.
+ * @throws SQLException Si ocurre un error al acceder a la base de datos.
+ */
     private int obtenerTransaccionPendiente(int personaId, int boletoId) throws SQLException {
     String sql = "SELECT t.transaccion_id FROM Transacciones t " +
                 "JOIN Transacciones_boletos tb ON t.transaccion_id = tb.transaccion_id " +

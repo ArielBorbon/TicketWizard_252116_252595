@@ -30,7 +30,9 @@ public class CompletarCompraPendienteFrame extends JFrame {
         cargarTransaccionesPendientes();
         initComponents();
     }
-
+/**
+ * Carga las transacciones pendientes del usuario actual y las muestra en un combo box.
+ */
     private void cargarTransaccionesPendientes() {
         try {
             List<Transaccion> transacciones = transaccionDAO.obtenerTransaccionesPendientes(usuario.getPersonaId());

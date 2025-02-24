@@ -68,6 +68,14 @@ public class LoginFrame extends JFrame {
         add(panel);
     }
 
+    
+    
+    
+    /**
+ * Valida las credenciales del usuario ingresadas en los campos de texto.
+ * Si las credenciales son correctas, se inicia la sesión y se abre la interfaz correspondiente.
+ * Si las credenciales son incorrectas o ocurre un error, se muestra un mensaje de error.
+ */
     private void validarCredenciales() {
         String usuario = txtUsuario.getText();
         String contrasena = new String(txtContrasena.getPassword());

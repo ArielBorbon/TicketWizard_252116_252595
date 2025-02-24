@@ -100,6 +100,15 @@ public class ConfigurarReventaFrame extends JFrame {
         dispose(); 
     }
 
+    
+    
+    /**
+ * Convierte un texto de comisión en formato de porcentaje a un valor decimal.
+ *
+ * @param textoComision El texto que representa la comisión en formato de porcentaje (ejemplo: "15%").
+ * @return El valor decimal correspondiente a la comisión (ejemplo: 0.15 para "15%").
+ */
+    
     private double convertirComision(String textoComision) {
         return Double.parseDouble(textoComision.replace("%", "")) / 100.0;
     }

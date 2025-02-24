@@ -13,6 +13,15 @@ import java.sql.*;
 public class personaDAO {
  private final ConexionBD conexionBD = new ConexionBD();
 
+ 
+ /*
+ * Verifica si las credenciales de un usuario (usuario y contraseña) son válidas.
+ * @param usuario El nombre de usuario proporcionado.
+ * @param contrasena La contraseña proporcionada.
+ * @return true si las credenciales son válidas, false en caso contrario.
+ */
+ 
+ 
     public boolean autenticar(String usuario, String contrasena) throws SQLException {
         String sql = "SELECT * FROM Personas WHERE usuario = ? AND contrasena = ?";
         
@@ -28,7 +37,11 @@ public class personaDAO {
         }
     }
 
-
+/*
+ * Añade fondos al saldo de una persona en la base de datos.
+ * @param personaId El ID de la persona a la que se le añadirán los fondos.
+ * @param monto La cantidad de fondos que se agregarán al saldo.
+ */
     public void agregarFondos(int personaId, double monto) throws SQLException {
         String sql = "UPDATE Personas SET saldo = saldo + ? WHERE persona_id = ?";
         
@@ -41,6 +54,15 @@ public class personaDAO {
         }
     }
 
+    
+    
+    /*
+ * Mapea un ResultSet a un objeto de tipo Persona.
+ * @param rs El ResultSet que contiene los datos de la persona.
+ * @return Un objeto Persona con los datos mapeados.
+ */
+    
+    
     private Persona mapearPersona(ResultSet rs) throws SQLException {
         Persona persona = new Persona();
         persona.setPersonaId(rs.getInt("persona_id"));
@@ -57,6 +79,13 @@ public class personaDAO {
         
     }
         
+    
+    /*
+ * Actualiza el saldo de una persona en la base de datos, sumando el monto especificado.
+ * @param personaId El ID de la persona cuyo saldo se actualizará.
+ * @param monto El monto que se sumará al saldo actual.
+ */
+    
 public void actualizarSaldo(int personaId, double monto) throws SQLException {
     String sql = "UPDATE Personas SET saldo = saldo + ? WHERE persona_id = ?";
     try (Connection conn = ConexionBD.crearConexion();
@@ -69,6 +98,14 @@ public void actualizarSaldo(int personaId, double monto) throws SQLException {
 }
         
         
+
+
+/*
+ * Obtiene una persona de la base de datos utilizando su ID.
+ * @param personaId El ID de la persona que se desea obtener.
+ * @return Un objeto Persona si se encuentra, o null si no existe.
+ */
+
         
         public Persona obtenerPorId(int personaId) throws SQLException {
     String sql = "SELECT * FROM Personas WHERE persona_id = ?";
@@ -87,6 +124,14 @@ public void actualizarSaldo(int personaId, double monto) throws SQLException {
     return null; 
 }
 
+        
+        /*
+ * Obtiene una persona de la base de datos utilizando su nombre de usuario.
+ * @param personaUsuario El nombre de usuario de la persona que se desea obtener.
+ * @return Un objeto Persona si se encuentra, o null si no existe.
+ */
+        
+        
                 public Persona obtenerPorUsuario(String personaUsuario) throws SQLException {
     String sql = "SELECT * FROM Personas WHERE usuario = ?";
     

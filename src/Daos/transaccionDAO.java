@@ -16,6 +16,15 @@ public class transaccionDAO {
 private final ConexionBD conexionBD = new ConexionBD();
 
 
+
+
+    /*
+ * Obtiene el historial de transacciones de una persona específica utilizando su ID.
+ * @param personaId El ID de la persona cuyo historial de transacciones se desea obtener.
+ * @return Una lista de objetos Transaccion asociados a la persona.
+ */
+
+
     public List<Transaccion> obtenerHistorial(int personaId) throws SQLException {
         String sql = "SELECT * FROM Transacciones WHERE persona_id = ?";
         List<Transaccion> transacciones = new ArrayList<>();
@@ -33,7 +42,13 @@ private final ConexionBD conexionBD = new ConexionBD();
         }
         return transacciones;
     }
-
+    
+    
+/*
+ * Mapea un ResultSet a un objeto de tipo Transaccion.
+ * @param rs El ResultSet que contiene los datos de la transacción.
+ * @return Un objeto Transaccion con los datos mapeados.
+ */
 
     private Transaccion mapearTransaccion(ResultSet rs) throws SQLException {
         Transaccion transaccion = new Transaccion();
@@ -58,6 +73,13 @@ private final ConexionBD conexionBD = new ConexionBD();
         return transaccion;
     }
     
+    
+    /*
+ * Crea una nueva transacción en la base de datos y retorna el ID generado.
+ * @param transaccion El objeto Transaccion que contiene los datos de la transacción a crear.
+ * @return El ID de la transacción generada.
+ * @throws SQLException Si ocurre un error al ejecutar la consulta o no se genera un ID.
+ */
     
 public int crearTransaccion(Transaccion transaccion) throws SQLException {
     String sql = "INSERT INTO Transacciones (num_transaccion, tipo, monto_total, comision, estado, fecha_expiracion, fecha_hora, persona_id) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -91,6 +113,15 @@ public int crearTransaccion(Transaccion transaccion) throws SQLException {
         throw new SQLException("No se generó ID de transacción");
     }
 }
+
+/*
+ * Verifica si una transacción pendiente sigue siendo válida (no ha expirado).
+ * @param transaccionId El ID de la transacción pendiente a verificar.
+ * @return true si la transacción sigue siendo válida, false si ha expirado.
+ * @throws SQLException Si ocurre un error al ejecutar la consulta.
+ */
+
+
     public boolean completarCompraPendiente(int transaccionId) throws SQLException {
     String sql = 
         "SELECT COUNT(*) FROM Transacciones " +
@@ -113,7 +144,11 @@ public int crearTransaccion(Transaccion transaccion) throws SQLException {
         }
     }
 }
-    
+    /*
+ * Obtiene una transacción de la base de datos utilizando su ID.
+ * @param transaccionId El ID de la transacción que se desea obtener.
+ * @return Un objeto Transaccion si se encuentra, o null si no existe.
+ */
     
     
     public Transaccion obtenerPorId(int transaccionId) throws SQLException {
@@ -152,6 +187,19 @@ public int crearTransaccion(Transaccion transaccion) throws SQLException {
     }
     return null; 
 }
+    
+    
+    /*
+ * Actualiza el estado de una transacción en la base de datos.
+ * @param transaccionId El ID de la transacción cuyo estado se actualizará.
+ * @param nuevoEstado El nuevo estado que se asignará a la transacción.
+ * @return true si la actualización fue exitosa, false si no se afectaron filas.
+ */
+    
+    
+    
+    
+    
     public boolean actualizarEstado(int transaccionId, String nuevoEstado) throws SQLException {
     String sql = "UPDATE Transacciones SET estado = ? WHERE transaccion_id = ?";
     
@@ -165,6 +213,14 @@ public int crearTransaccion(Transaccion transaccion) throws SQLException {
         return filasAfectadas > 0; 
     }
 }
+    
+    
+    /*
+ * Obtiene una lista de IDs de boletos asociados a una transacción específica.
+ * @param transaccionId El ID de la transacción de la cual se desean obtener los boletos.
+ * @return Una lista de IDs de boletos asociados a la transacción.
+ */
+    
     
     public List<Integer> obtenerBoletosDeTransaccion(int transaccionId) throws SQLException {
     String sql = "SELECT boleto_id FROM Transacciones_boletos WHERE transaccion_id = ?";
@@ -185,7 +241,11 @@ public int crearTransaccion(Transaccion transaccion) throws SQLException {
 }
     
     
-    
+    /*
+ * Obtiene una lista de transacciones pendientes de una persona que aún no han expirado.
+ * @param personaId El ID de la persona cuyas transacciones pendientes se desean obtener.
+ * @return Una lista de objetos Transaccion que están pendientes y no han expirado.
+ */
     
     
     public List<Transaccion> obtenerTransaccionesPendientes(int personaId) throws SQLException {

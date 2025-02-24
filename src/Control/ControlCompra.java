@@ -49,7 +49,14 @@ public class ControlCompra {
 
     
     
-
+/**
+ * Realiza la compra de boletos de forma directa o a través de reventa, gestionando la transacción y actualizando los saldos.
+ *
+ * @param compradorId El ID de la persona que está comprando los boletos.
+ * @param boletosIds Una lista de IDs de los boletos que se desean comprar.
+ * @return true si la compra se completó exitosamente, false si la compra fue registrada como pendiente.
+ * @throws SQLException Si ocurre un error al acceder a la base de datos o durante el proceso de compra.
+ */
 
 public boolean comprarBoletosDirectos(int compradorId, List<Integer> boletosIds) throws SQLException {
     Connection conn = null;
@@ -153,6 +160,15 @@ if (comprador.getSaldo() < (total + comisionTotal)) {
 }
 
 
+
+
+/**
+ * Genera un número de transacción único utilizando un UUID.
+ *
+ * @return Un string que representa el número de transacción, limitado a los primeros 8 caracteres en mayúsculas.
+ */
+
+
 private String generarNumTransaccion() {
     return UUID.randomUUID().toString().substring(0, 8).toUpperCase();
 }
@@ -168,7 +184,12 @@ private String generarNumTransaccion() {
     }
     
     
-    
+    /**
+ * Libera las reservas de boletos que han expirado, cambiando su estado a 'disponible' 
+ * y asignando el ID de la persona a 1 (indicando que están disponibles para la compra).
+ *
+ * @throws SQLException Si ocurre un error al acceder a la base de datos.
+ */
     public void liberarReservasExpiradas() throws SQLException {
     String sql = "UPDATE Boletos b " +
                 "JOIN Transacciones_boletos tb ON b.boleto_id = tb.boleto_id " +
@@ -184,7 +205,13 @@ private String generarNumTransaccion() {
 }
     
     
-    
+    /**
+ * Completa una compra pendiente, actualizando el estado de la transacción y los boletos asociados.
+ *
+ * @param transaccionId El ID de la transacción que se desea completar.
+ * @return true si la compra se completó exitosamente, false si no se pudo completar.
+ * @throws SQLException Si ocurre un error al acceder a la base de datos o durante el proceso de compra.
+ */
     
 public boolean completarCompraPendiente(int transaccionId) throws SQLException {
     Connection conn = null;

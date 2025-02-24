@@ -79,6 +79,14 @@ public class InterfazHistorialBoletos extends JFrame {
         setVisible(true);
     }
 
+    
+    
+    /**
+ * Carga los boletos asociados a la persona actual y los muestra en el combo box de historial de transacciones.
+ * Si no hay boletos disponibles, se muestra un mensaje correspondiente.
+ */
+    
+    
     private void cargarBoletos() {
         try (Connection conexion = ConexionBD.crearConexion()) {  
             String consulta = """

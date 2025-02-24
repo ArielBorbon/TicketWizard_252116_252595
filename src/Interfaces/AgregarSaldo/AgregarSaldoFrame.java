@@ -26,6 +26,14 @@ public class AgregarSaldoFrame extends JFrame {
         btnCompletarCompra.addActionListener(e -> completarCompra());
     }
 
+    
+    
+    
+    /**
+ * Completa la compra de una transacción pendiente.
+ * Si la compra se completa exitosamente, se muestra un mensaje de éxito y se cierra la ventana.
+ * Si la compra no se puede completar, se muestra un mensaje de error.
+ */
     private void completarCompra() {
         try {
             ControlCompra control = new ControlCompra();

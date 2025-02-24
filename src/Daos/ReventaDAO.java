@@ -19,6 +19,17 @@ import Utileria.ConexionBD;
 public class ReventaDAO {
     private final ConexionBD conexionBD = new ConexionBD();
 
+    
+    
+    
+    /**
+ * Crea una nueva reventa en la base de datos insertando un registro en la tabla Reventas.
+ *
+ * @param reventa El objeto Reventa que contiene la información de la reventa a crear.
+ * @throws SQLException Si ocurre un error al acceder a la base de datos.
+ */
+    
+    
     public void crearReventa(Reventa reventa) throws SQLException {
         String sql = "INSERT INTO Reventas (precio_reventa, fecha_limite, estado, boleto_id, persona_id_vendedor) "
                    + "VALUES (?, ?, ?, ?, ?)";
@@ -36,6 +47,15 @@ public class ReventaDAO {
         }
     }
 
+    
+    /**
+ * Obtiene una lista de reventas que están actualmente activas en la base de datos.
+ *
+ * @return Una lista de objetos Reventa que tienen el estado 'activo'.
+ * @throws SQLException Si ocurre un error al acceder a la base de datos.
+ */
+    
+    
     public List<Reventa> obtenerReventasActivas() throws SQLException {
         String sql = "SELECT * FROM Reventas WHERE estado = 'activo'";
         List<Reventa> reventas = new ArrayList<>();
@@ -51,6 +71,16 @@ public class ReventaDAO {
         return reventas;
     }
 
+    
+    
+    /**
+ * Mapea un registro de ResultSet a un objeto Reventa.
+ *
+ * @param rs El ResultSet que contiene los datos de la reventa.
+ * @return Un objeto Reventa con los datos mapeados desde el ResultSet.
+ * @throws SQLException Si ocurre un error al acceder a los datos del ResultSet.
+ */
+    
     private Reventa mapearReventa(ResultSet rs) throws SQLException {
         Reventa reventa = new Reventa();
         reventa.setReventaId(rs.getInt("reventa_id"));

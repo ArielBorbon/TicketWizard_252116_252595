@@ -30,7 +30,10 @@ public class SeleccionarBoletoR extends JFrame {
         initComponentes();
         cargarBoletosDisponibles();
     }
-
+/**
+ * Configura la ventana de la aplicación para la reventa de boletos.
+ * Establece el título, tamaño, operación de cierre, ubicación y diseño de la ventana.
+ */
     private void configurarVentana() {
         setTitle("Mis Boletos - Reventa");
         setSize(500, 150);
@@ -56,6 +59,17 @@ public class SeleccionarBoletoR extends JFrame {
         add(panelInferior, BorderLayout.SOUTH);
     }
 
+    
+    
+    
+    /**
+ * Carga los boletos disponibles para el usuario actual y los muestra en un combo box.
+ * Si no hay boletos disponibles, se muestra un mensaje y se cierra la ventana.
+ *
+ * @throws SQLException Si ocurre un error al acceder a la base de datos.
+ */
+    
+    
     private void cargarBoletosDisponibles() throws SQLException {
 
         boletosUsuario = boletoDAO.obtenerBoletosPorPropietario(usuarioActual.getPersonaId());

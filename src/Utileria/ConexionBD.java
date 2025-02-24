@@ -34,6 +34,14 @@ public class ConexionBD {
     public ConexionBD() {
     }
     
+    
+    /**
+ * Crea y devuelve una conexión a la base de datos utilizando los parámetros de conexión especificados.
+ *
+ * @return Una conexión a la base de datos.
+ * @throws SQLException Si ocurre un error al establecer la conexión.
+ */
+    
     public static Connection crearConexion() throws SQLException {
         return DriverManager.getConnection(cadenaConexion, usuario, contrasenia);
     }

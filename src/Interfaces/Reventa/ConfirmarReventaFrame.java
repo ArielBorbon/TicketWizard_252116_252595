@@ -43,6 +43,15 @@ public class ConfirmarReventaFrame extends JFrame {
         initComponentes();
     }
 
+    
+    
+    /**
+ * Valida los datos necesarios para la reventa.
+ * Lanza una excepción si el usuario actual o el boleto seleccionado son nulos.
+ *
+ * @throws IllegalArgumentException Si los datos de reventa son inválidos.
+ */
+    
     private void validarDatos() {
         if (usuarioActual == null || boletoSeleccionado == null) {
             throw new IllegalArgumentException("Datos de reventa inválidos");

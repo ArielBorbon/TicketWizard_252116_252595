@@ -26,6 +26,21 @@ public class ControlReventa {
     private ReventaDAO reventaDAO = new ReventaDAO();
     private boletoDAO boletoDAO = new boletoDAO();
 
+    
+    
+    
+    /**
+ * Publica boletos en reventa, asegurando que el vendedor sea el propietario y que el precio de reventa no exceda el límite permitido.
+ *
+ * @param vendedorId El ID del vendedor que está publicando los boletos.
+ * @param boletosIds Una lista de IDs de los boletos que se desean poner en reventa.
+ * @param precioReventa El precio al que se ofrecerán los boletos en reventa.
+ * @param fechaLimite La fecha límite para la reventa.
+ * @return true si la publicación en reventa fue exitosa, false en caso contrario.
+ */
+    
+    
+    
 public boolean publicarEnReventa(int vendedorId, List<Integer> boletosIds, double precioReventa, Date fechaLimite) {
     try {
         for (int boletoId : boletosIds) {
@@ -63,7 +78,16 @@ public boolean publicarEnReventa(int vendedorId, List<Integer> boletosIds, doubl
     }
 }
 
-
+/**
+ * Revende un boleto a la boletera, actualizando el propietario y creando una transacción de reventa.
+ *
+ * @param vendedorId El ID del vendedor que está revendiendo el boleto.
+ * @param boletoId El ID del boleto que se desea revender.
+ * @param precioReventa El precio al que se ofrecerá el boleto en reventa.
+ * @param comision La comisión asociada a la reventa.
+ * @return true si la reventa se completó exitosamente, false en caso contrario.
+ * @throws SQLException Si ocurre un error al acceder a la base de datos.
+ */
 
 
 public boolean revenderABoletera(int vendedorId, int boletoId, double precioReventa, double comision) throws SQLException {
@@ -114,6 +138,15 @@ public boolean revenderABoletera(int vendedorId, int boletoId, double precioReve
         if (conn != null) conn.close();
     }
 }
+
+
+/**
+ * Genera un número de transacción único para las reventas utilizando un UUID.
+ *
+ * @return Un string que representa el número de transacción, prefijado con "REV-" y limitado a los primeros 8 caracteres en mayúsculas.
+ */
+
+
 
     private String generarNumTransaccion() {
         return "REV-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();

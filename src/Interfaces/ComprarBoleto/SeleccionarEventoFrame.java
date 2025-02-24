@@ -103,7 +103,10 @@ botonContinuar.addActionListener(new ActionListener() {
         
         
         
-        
+            /**
+ * Carga los eventos disponibles en el combo box, aplicando filtros de nombre y fecha.
+ * Si ocurre un error al cargar los eventos, se muestra un mensaje de error.
+ */
         
     
 
@@ -124,8 +127,13 @@ botonContinuar.addActionListener(new ActionListener() {
     public JComboBox<String> getComboEventos() {
         return comboEventos;
     }
-    
-    
+    /**
+ * Carga eventos en un JComboBox basado en filtros de fecha y nombre.
+ * Si se especifica una fecha, se filtra por esa fecha. Si se especifica un nombre, se filtra por coincidencias.
+ *
+ * @param comboEventos El JComboBox donde se cargarán los nombres de los eventos.
+ */
+
         private void cargarEventos(JComboBox<String> comboEventos) {   
 
 StringBuilder sql = new StringBuilder("SELECT * FROM Eventos WHERE 1=1");

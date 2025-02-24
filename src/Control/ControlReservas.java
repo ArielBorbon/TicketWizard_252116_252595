@@ -12,6 +12,16 @@ import java.sql.*;
  * Alberto Jimenez Garcia 252595
  */
 public class ControlReservas {
+  
+    
+    
+    /**
+ * Inicia un proceso de liberación automática de boletos reservados que han expirado.
+ * Este proceso se ejecuta cada minuto y actualiza el estado de los boletos a 'disponible'
+ * si la transacción asociada está en estado 'pendiente' y ha expirado.
+ */
+    
+    
     public static void iniciarLiberacionAutomatica() {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {

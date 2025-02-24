@@ -85,7 +85,10 @@ public class InterfazHistorialTransaccion extends JFrame {
         setVisible(true);
     }
 
-
+/**
+ * Carga las transacciones del usuario actual y las muestra en el combo box de historial de transacciones.
+ * Si no hay transacciones disponibles, se muestra un mensaje correspondiente.
+ */
     private void cargarTransacciones() {
         try (Connection conexion = ConexionBD.crearConexion()) {
 

@@ -73,7 +73,11 @@ public class InterfazHistorialReventas extends JFrame {
         frame.setVisible(true);
     }
 
-
+/**
+ * Carga las reventas disponibles en la boletera y las muestra en un combo box.
+ * Si no hay reventas registradas, se muestra un mensaje correspondiente.
+ */
+    
     private void cargarReventasBoletera() {
         String sql = "SELECT r.reventa_id, r.precio_reventa, r.fecha_limite, r.estado, "
                    + "b.num_serie, e.nombre AS evento "
